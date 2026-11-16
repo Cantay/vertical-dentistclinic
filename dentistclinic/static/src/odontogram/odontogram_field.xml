@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="dentistclinic.OdontogramField">
+        <div class="o_dental_odontogram">
+            <div class="dental-arch dental-arch-upper d-flex justify-content-center mb-1">
+                <t t-foreach="quadrants.upperRight" t-as="tooth" t-key="tooth">
+                    <div t-att-class="getToothClass(tooth)" t-on-click="() => this.onToothClick(tooth)">
+                        <span t-esc="tooth"/>
+                    </div>
+                </t>
+                <div class="dental-arch-divider"/>
+                <t t-foreach="quadrants.upperLeft" t-as="tooth" t-key="tooth">
+                    <div t-att-class="getToothClass(tooth)" t-on-click="() => this.onToothClick(tooth)">
+                        <span t-esc="tooth"/>
+                    </div>
+                </t>
+            </div>
+            <div class="dental-arch dental-arch-lower d-flex justify-content-center mb-2">
+                <t t-foreach="quadrants.lowerRight" t-as="tooth" t-key="tooth">
+                    <div t-att-class="getToothClass(tooth)" t-on-click="() => this.onToothClick(tooth)">
+                        <span t-esc="tooth"/>
+                    </div>
+                </t>
+                <div class="dental-arch-divider"/>
+                <t t-foreach="quadrants.lowerLeft" t-as="tooth" t-key="tooth">
+                    <div t-att-class="getToothClass(tooth)" t-on-click="() => this.onToothClick(tooth)">
+                        <span t-esc="tooth"/>
+                    </div>
+                </t>
+            </div>
+
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <span t-if="state.selectedTooth">
+                    Seçili diş: <strong t-esc="state.selectedTooth"/>
+                </span>
+                <span t-else="">Bir diş seçin</span>
+                <button class="btn btn-sm btn-primary" t-on-click="addLineForSelectedTooth"
+                        t-att-disabled="!state.selectedTooth">
+                    Bu Dişe Tedavi Satırı Ekle
+                </button>
+            </div>
+
+            <X2ManyField t-props="props"/>
+        </div>
+    </t>
+</templates>

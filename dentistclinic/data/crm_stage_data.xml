@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="crm_team_health_tourism" model="crm.team">
+        <field name="name">Sağlık Turizmi</field>
+        <field name="use_opportunities">True</field>
+    </record>
+
+    <record id="crm_stage_health_tourism_lead" model="crm.stage">
+        <field name="name">Lead</field>
+        <field name="sequence">1</field>
+        <field name="team_id" ref="crm_team_health_tourism"/>
+    </record>
+
+    <record id="crm_stage_health_tourism_evaluation" model="crm.stage">
+        <field name="name">Ön Değerlendirme</field>
+        <field name="sequence">2</field>
+        <field name="team_id" ref="crm_team_health_tourism"/>
+    </record>
+
+    <record id="crm_stage_health_tourism_quote_sent" model="crm.stage">
+        <field name="name">Teklif Gönderildi</field>
+        <field name="sequence">3</field>
+        <field name="team_id" ref="crm_team_health_tourism"/>
+    </record>
+
+    <record id="crm_stage_health_tourism_approved" model="crm.stage">
+        <field name="name">Onaylandı</field>
+        <field name="sequence">4</field>
+        <field name="team_id" ref="crm_team_health_tourism"/>
+    </record>
+
+    <record id="crm_stage_health_tourism_travel_planned" model="crm.stage">
+        <field name="name">Seyahat Planlandı</field>
+        <field name="sequence">5</field>
+        <field name="team_id" ref="crm_team_health_tourism"/>
+    </record>
+
+    <record id="crm_stage_health_tourism_in_clinic" model="crm.stage">
+        <field name="name">Klinikte</field>
+        <field name="sequence">6</field>
+        <field name="team_id" ref="crm_team_health_tourism"/>
+    </record>
+
+    <record id="crm_stage_health_tourism_completed" model="crm.stage">
+        <field name="name">Tamamlandı</field>
+        <field name="sequence">7</field>
+        <field name="is_won">True</field>
+        <field name="team_id" ref="crm_team_health_tourism"/>
+    </record>
+</odoo>

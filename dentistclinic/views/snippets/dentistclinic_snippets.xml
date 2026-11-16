@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="s_dental_online_appointment" name="Online Randevu">
+        <section class="s_dental_appointment pt48 pb48" data-snippet="s_dental_online_appointment" data-name="Online Randevu">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="dental-appointment-card">
+                            <div class="dental-appointment-head text-center mb-4">
+                                <h2>Online Appointment Request</h2>
+                                <p class="text-muted">Fill in the form and our clinic team will get in touch with you.</p>
+                            </div>
+
+                            <div class="dental-appointment-status d-none" aria-live="polite"/>
+
+                            <form class="dental-appointment-form" method="post">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" name="name" required="required"/>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Phone</label>
+                                        <input type="tel" class="form-control" name="phone" required="required"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" name="email"/>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Preferred Date</label>
+                                        <input type="date" class="form-control" name="preferred_date"/>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Appointment Type</label>
+                                    <select class="form-select" name="appointment_type">
+                                        <option value="examination">Examination</option>
+                                        <option value="control">Check-up</option>
+                                        <option value="treatment">Treatment</option>
+                                        <option value="emergency">Emergency</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Note</label>
+                                    <textarea class="form-control" name="notes" rows="3" placeholder="Your concern or anything you’d like to add..."/>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 dental-appointment-submit">
+                                    <span>Request Appointment</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_dental_booking_wizard" name="Gelişmiş Online Randevu">
+        <section class="s_dental_booking pt48 pb48" data-snippet="s_dental_booking_wizard" data-name="Gelişmiş Online Randevu">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="dental-booking-card">
+                            <div class="text-center mb-4">
+                                <h2>Book an Appointment Online</h2>
+                                <p class="text-muted">Choose your dentist and a time that suits you.</p>
+                            </div>
+
+                            <ol class="dental-booking-progress list-unstyled d-flex justify-content-between mb-4">
+                                <li class="is-active" data-step="1"><span>1</span>Treatment</li>
+                                <li data-step="2"><span>2</span>Dentist &amp; Time</li>
+                                <li data-step="3"><span>3</span>Details</li>
+                                <li data-step="4"><span>4</span>Confirm</li>
+                            </ol>
+
+                            <div class="dental-booking-status d-none" aria-live="polite"/>
+
+                            <form class="dental-booking-form" novalidate="novalidate">
+                                <div class="dental-booking-step" data-step="1">
+                                    <p class="fw-bold mb-3">Choose the appointment type</p>
+                                    <div class="dental-booking-types">
+                                        <label class="dental-booking-option">
+                                            <input type="radio" name="appointment_type" value="examination" checked="checked"/>
+                                            <span>Examination</span>
+                                        </label>
+                                        <label class="dental-booking-option">
+                                            <input type="radio" name="appointment_type" value="control"/>
+                                            <span>Check-up</span>
+                                        </label>
+                                        <label class="dental-booking-option">
+                                            <input type="radio" name="appointment_type" value="treatment"/>
+                                            <span>Treatment</span>
+                                        </label>
+                                        <label class="dental-booking-option">
+                                            <input type="radio" name="appointment_type" value="emergency"/>
+                                            <span>Emergency</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="dental-booking-step d-none" data-step="2">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Dentist</label>
+                                            <select class="form-select" name="doctor_id">
+                                                <option value="">Loading...</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Date</label>
+                                            <input type="date" class="form-control" name="booking_date"/>
+                                        </div>
+                                    </div>
+                                    <p class="fw-bold mb-2">Available times</p>
+                                    <div class="dental-booking-slots">
+                                        <p class="text-muted mb-0">Choose a dentist and a date to see available times.</p>
+                                    </div>
+                                    <input type="hidden" name="slot_start"/>
+                                </div>
+
+                                <div class="dental-booking-step d-none" data-step="3">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Full Name *</label>
+                                            <input type="text" class="form-control" name="name" maxlength="140"/>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Phone *</label>
+                                            <input type="tel" class="form-control" name="phone" maxlength="32"/>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" name="email" maxlength="140"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Note</label>
+                                        <textarea class="form-control" name="notes" rows="3" maxlength="2000" placeholder="Your concern or anything you’d like to add..."/>
+                                    </div>
+                                </div>
+
+                                <div class="dental-booking-step d-none" data-step="4">
+                                    <p class="fw-bold mb-3">Your appointment summary</p>
+                                    <dl class="dental-booking-summary row mb-0">
+                                        <dt class="col-sm-4">Appointment type</dt><dd class="col-sm-8" data-summary="type"/>
+                                        <dt class="col-sm-4">Dentist</dt><dd class="col-sm-8" data-summary="doctor"/>
+                                        <dt class="col-sm-4">Date / Time</dt><dd class="col-sm-8" data-summary="slot"/>
+                                        <dt class="col-sm-4">Full Name</dt><dd class="col-sm-8" data-summary="name"/>
+                                        <dt class="col-sm-4">Phone</dt><dd class="col-sm-8" data-summary="phone"/>
+                                    </dl>
+                                </div>
+
+                                <div class="dental-booking-done d-none text-center py-4">
+                                    <h3>Thank you!</h3>
+                                    <p class="dental-booking-done-message mb-0"/>
+                                </div>
+
+                                <div class="dental-booking-nav d-flex justify-content-between mt-4">
+                                    <button type="button" class="btn btn-outline-secondary dental-booking-back d-none">Back</button>
+                                    <button type="button" class="btn btn-primary ms-auto dental-booking-next">Next</button>
+                                    <button type="button" class="btn btn-primary ms-auto dental-booking-submit d-none">Confirm Appointment</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_dental_team" name="Ekibimiz (Dinamik)">
+        <section class="s_dental_team pt48 pb48" data-snippet="s_dental_team" data-name="Ekibimiz (Dinamik)">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2>Our Team</h2>
+                    <p class="text-muted">Meet our dentists and clinic team.</p>
+                </div>
+                <div class="row dental-team-list">
+                    <p class="text-center text-muted">Loading team information...</p>
+                </div>
+                <div class="text-center mt-2">
+                    <a href="/our-team" class="btn btn-outline-primary">See the Whole Team</a>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_dental_event_request" name="Danışma Günü Talebi">
+        <section id="event-request" class="s_dental_event_request pt48 pb48" data-snippet="s_dental_event_request" data-name="Danışma Günü Talebi">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="dental-appointment-card">
+                            <div class="text-center mb-4">
+                                <h2>Apply for a Dental Event</h2>
+                                <p class="text-muted">Choose an upcoming event, or tell us your city and we’ll let you know when we plan one there.</p>
+                            </div>
+
+                            <div class="dental-appointment-status d-none" aria-live="polite"/>
+
+                            <form class="dental-event-request-form" novalidate="novalidate">
+                                <div class="mb-3">
+                                    <label class="form-label">Event</label>
+                                    <select class="form-select" name="event_id">
+                                        <option value="">My city isn’t listed — let me know when you come</option>
+                                    </select>
+                                </div>
+                                <div class="row dental-event-location">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Country *</label>
+                                        <select class="form-select" name="country_id">
+                                            <option value="">Loading...</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">City *</label>
+                                        <input type="text" class="form-control" name="city" maxlength="100"/>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Treatment you’re interested in</label>
+                                    <select class="form-select" name="treatment_interest">
+                                        <option value="">Please select</option>
+                                        <option value="implant">Implants</option>
+                                        <option value="aesthetic">Aesthetics / Zirconia / Laminate veneers</option>
+                                        <option value="orthodontics">Orthodontics / Clear aligners</option>
+                                        <option value="checkup">General examination</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Full Name *</label>
+                                        <input type="text" class="form-control" name="contact_name" maxlength="140"/>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Phone</label>
+                                        <input type="tel" class="form-control" name="phone" maxlength="32"/>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" name="email" maxlength="140"/>
+                                    <div class="form-text">At least one of phone or email is required.</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Note</label>
+                                    <textarea class="form-control" name="notes" rows="3" maxlength="2000"/>
+                                </div>
+                                <div class="dental-hp" aria-hidden="true">
+                                    <label>Website<input type="text" name="website_url" tabindex="-1" autocomplete="off"/></label>
+                                </div>
+                                <label class="form-check d-block mb-3">
+                                    <input class="form-check-input" type="checkbox" name="privacy_consent" value="1"/>
+                                    <span class="form-check-label">
+                                        I have read and accept the <a href="/privacy" target="_blank" class="o_translate_inline">privacy notice</a> on the processing of my personal data for this request. *
+                                    </span>
+                                </label>
+                                <button type="submit" class="btn btn-primary w-100 dental-event-request-submit">
+                                    <span>Send Request</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="s_dental_events" name="Dental Events (Liste)">
+        <section id="upcoming-events" class="s_dental_events pt48 pb48" data-snippet="s_dental_events" data-name="Dental Events (Liste)">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2>Upcoming Dental Events</h2>
+                    <p class="text-muted">Meet our dentists in person at an event near you.</p>
+                </div>
+                <div class="row dental-event-list">
+                    <p class="text-center text-muted">Loading events...</p>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="dentistclinic_snippets" inherit_id="website.snippets" name="Diş Kliniği Snippets">
+        <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+            <t t-snippet="dentistclinic.s_dental_online_appointment" string="Online Appointment" t-thumbnail="/website/static/src/img/snippets_thumbs/s_website_form.svg" group="contact_and_forms"/>
+            <t t-snippet="dentistclinic.s_dental_booking_wizard" string="Advanced Online Booking" t-thumbnail="/website/static/src/img/snippets_thumbs/s_website_form.svg" group="contact_and_forms"/>
+            <t t-snippet="dentistclinic.s_dental_events" string="Dental Events (List)" t-thumbnail="/website/static/src/img/snippets_thumbs/s_company_team.svg" group="content"/>
+            <t t-snippet="dentistclinic.s_dental_event_request" string="Dental Event Application" t-thumbnail="/website/static/src/img/snippets_thumbs/s_website_form.svg" group="contact_and_forms"/>
+            <t t-snippet="dentistclinic.s_dental_team" string="Our Team (Dynamic)" t-thumbnail="/website/static/src/img/snippets_thumbs/s_company_team.svg" group="people"/>
+        </xpath>
+    </template>
+</odoo>

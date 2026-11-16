@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="dentistclinic.Dashboard">
+        <div class="o_dentistclinic_dashboard p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Diş Kliniği Dashboard</h2>
+                <div class="d-flex align-items-center gap-2">
+                    <t t-if="state.data and state.data.companies and state.data.companies.length > 1">
+                        <select class="form-select form-select-sm" style="width: auto;" t-on-change="onCompanyChange">
+                            <option value="">Tüm Şubeler</option>
+                            <t t-foreach="state.data.companies" t-as="company" t-key="company.id">
+                                <option t-att-value="company.id"
+                                        t-att-selected="state.selectedCompanyId === company.id">
+                                    <t t-esc="company.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </t>
+                    <button class="btn btn-secondary" t-on-click="onRefresh">
+                        <i class="fa fa-refresh"/> Yenile
+                    </button>
+                </div>
+            </div>
+
+            <t t-if="state.loading">
+                <p>Yükleniyor...</p>
+            </t>
+            <t t-else="">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="card text-center h-100" t-on-click="openAppointments" style="cursor: pointer;">
+                            <div class="card-body">
+                                <div class="display-6" t-esc="state.data.appointments_today"/>
+                                <div class="text-muted">Bugünkü Randevu</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center h-100" t-on-click="openAppointments" style="cursor: pointer;">
+                            <div class="card-body">
+                                <div class="display-6" t-esc="state.data.appointments_month"/>
+                                <div class="text-muted">Bu Ay Toplam Randevu</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center h-100">
+                            <div class="card-body">
+                                <div class="display-6 text-danger" t-esc="state.data.no_show_month"/>
+                                <div class="text-muted">Bu Ay Gelmeyen Hasta</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center h-100">
+                            <div class="card-body">
+                                <div class="display-6 text-success" t-esc="state.data.website_leads_month"/>
+                                <div class="text-muted">Web Sitesi Randevu Talebi</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="card text-center h-100" t-on-click="openTreatmentPlans" style="cursor: pointer;">
+                            <div class="card-body">
+                                <div class="display-6" t-esc="state.data.active_treatment_plans"/>
+                                <div class="text-muted">Aktif Tedavi Planı</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center h-100">
+                            <div class="card-body">
+                                <div class="display-6 text-warning" t-esc="state.data.pending_recalls"/>
+                                <div class="text-muted">Bekleyen Kontrol Hatırlatması</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center h-100" t-on-click="openLabOrders" style="cursor: pointer;">
+                            <div class="card-body">
+                                <div class="display-6" t-esc="state.data.pending_lab_orders"/>
+                                <div class="text-muted">Bekleyen Laboratuvar Talebi</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center h-100" t-on-click="openLabOrders" style="cursor: pointer;">
+                            <div class="card-body">
+                                <div class="display-6 text-danger" t-esc="state.data.overdue_lab_orders"/>
+                                <div class="text-muted">Geciken Laboratuvar Talebi</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-header">Randevu Durumu (Bu Ay)</div>
+                            <ul class="list-group list-group-flush">
+                                <t t-foreach="state.data.appointment_by_state" t-as="row" t-key="row.state">
+                                    <li class="list-group-item d-flex justify-content-between">
+                                        <span t-esc="row.label"/>
+                                        <span class="badge bg-secondary" t-esc="row.count"/>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-header">Hekim Performansı (Bu Ay)</div>
+                            <ul class="list-group list-group-flush">
+                                <t t-foreach="state.data.doctor_stats" t-as="row" t-key="row.doctor_name">
+                                    <li class="list-group-item">
+                                        <div class="fw-bold" t-esc="row.doctor_name"/>
+                                        <div class="text-muted small">
+                                            <t t-esc="row.appointment_count"/> randevu ·
+                                            <t t-esc="row.completed_lines"/> tamamlanan tedavi
+                                        </div>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <t t-if="state.data.company_comparison and state.data.company_comparison.length > 1">
+                    <div class="card mt-4">
+                        <div class="card-header">Şube Karşılaştırması (Bu Ay)</div>
+                        <div class="table-responsive">
+                            <table class="table table-sm mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Şube</th>
+                                        <th class="text-end">Randevu</th>
+                                        <th class="text-end">Gelmeyen</th>
+                                        <th class="text-end">Gelmeme Oranı</th>
+                                        <th class="text-end">Tamamlanan Tedavi</th>
+                                        <th class="text-end">Aktif Tedavi Planı</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="state.data.company_comparison" t-as="row" t-key="row.company_id">
+                                        <tr>
+                                            <td t-esc="row.company_name"/>
+                                            <td class="text-end" t-esc="row.appointment_count"/>
+                                            <td class="text-end" t-esc="row.no_show_count"/>
+                                            <td class="text-end"><t t-esc="row.no_show_rate"/>%</td>
+                                            <td class="text-end" t-esc="row.completed_lines"/>
+                                            <td class="text-end" t-esc="row.active_treatment_plans"/>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </div>
+    </t>
+</templates>

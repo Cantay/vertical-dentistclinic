@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_dentistclinic_root"
+              name="Diş Kliniği"
+              sequence="25"/>
+
+    <menuitem id="menu_dentistclinic_dashboard"
+              name="Dashboard"
+              parent="menu_dentistclinic_root"
+              action="action_dentistclinic_dashboard"
+              sequence="5"/>
+
+    <menuitem id="menu_dentistclinic_appointment"
+              name="Randevular"
+              parent="menu_dentistclinic_root"
+              action="action_dental_appointment"
+              sequence="10"/>
+
+    <menuitem id="menu_dentistclinic_treatment_plan"
+              name="Tedavi Planları"
+              parent="menu_dentistclinic_root"
+              action="action_dental_treatment_plan"
+              sequence="20"/>
+
+    <menuitem id="menu_dentistclinic_case"
+              name="Vakalar"
+              parent="menu_dentistclinic_root"
+              action="action_dental_case"
+              sequence="30"/>
+
+    <menuitem id="menu_dentistclinic_patient"
+              name="Hastalar"
+              parent="menu_dentistclinic_root"
+              action="action_dental_patient"
+              sequence="40"/>
+
+    <menuitem id="menu_dentistclinic_team"
+              name="Ekibimiz"
+              parent="menu_dentistclinic_root"
+              action="action_dental_team"
+              sequence="45"/>
+
+    <menuitem id="menu_dentistclinic_consent"
+              name="Onam Formları"
+              parent="menu_dentistclinic_root"
+              action="action_dental_consent"
+              sequence="50"
+              groups="group_dentistclinic_feature_consent"/>
+
+    <menuitem id="menu_dentistclinic_lab_order"
+              name="Laboratuvar Talepleri"
+              parent="menu_dentistclinic_root"
+              action="action_dental_lab_order"
+              sequence="60"
+              groups="group_dentistclinic_feature_lab_tracking"/>
+
+    <menuitem id="menu_dentistclinic_health_tourism_root"
+              name="Sağlık Turizmi"
+              parent="menu_dentistclinic_root"
+              sequence="70"
+              groups="group_dentistclinic_feature_health_tourism"/>
+
+    <menuitem id="menu_dentistclinic_crm_lead_health_tourism"
+              name="Fırsatlar"
+              parent="menu_dentistclinic_health_tourism_root"
+              action="action_crm_lead_health_tourism"
+              sequence="10"/>
+
+    <menuitem id="menu_dentistclinic_event"
+              name="Dental Events"
+              parent="menu_dentistclinic_health_tourism_root"
+              action="action_dental_event"
+              sequence="13"/>
+
+    <menuitem id="menu_dentistclinic_event_request"
+              name="Etkinlik Başvuruları"
+              parent="menu_dentistclinic_health_tourism_root"
+              action="action_dental_event_request"
+              sequence="15"/>
+
+    <menuitem id="menu_dentistclinic_travel_info"
+              name="Seyahat Bilgileri"
+              parent="menu_dentistclinic_health_tourism_root"
+              action="action_dental_travel_info"
+              sequence="20"/>
+
+    <menuitem id="menu_dentistclinic_agency"
+              name="Acenteler"
+              parent="menu_dentistclinic_health_tourism_root"
+              action="action_dental_agency"
+              sequence="25"/>
+
+    <menuitem id="menu_dentistclinic_commission"
+              name="Acente Komisyonları"
+              parent="menu_dentistclinic_health_tourism_root"
+              action="action_dental_commission"
+              sequence="30"/>
+
+    <menuitem id="menu_dentistclinic_config"
+              name="Ayarlar"
+              parent="menu_dentistclinic_root"
+              action="action_dentistclinic_settings"
+              sequence="90"
+              groups="group_dentistclinic_manager"/>
+</odoo>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dental_event_request_list" model="ir.ui.view">
+        <field name="name">dental.event.request.list</field>
+        <field name="model">dental.event.request</field>
+        <field name="arch" type="xml">
+            <list string="Başvurular ve Talepler">
+                <field name="create_date" string="Tarih" widget="date"/>
+                <field name="contact_name"/>
+                <field name="event_id"/>
+                <field name="country_id"/>
+                <field name="city"/>
+                <field name="treatment_interest"/>
+                <field name="phone" optional="show"/>
+                <field name="email" optional="hide"/>
+                <field name="agency_id" optional="hide"/>
+                <field name="source" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'new'"
+                       decoration-warning="state == 'contacted'"
+                       decoration-success="state in ('invited', 'attended')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_dental_event_request_form" model="ir.ui.view">
+        <field name="name">dental.event.request.form</field>
+        <field name="model">dental.event.request</field>
+        <field name="arch" type="xml">
+            <form string="Başvuru / Talep">
+                <header>
+                    <button name="action_mark_contacted" type="object" string="İletişime Geçildi"
+                            invisible="state != 'new'" class="oe_highlight"/>
+                    <button name="action_mark_invited" type="object" string="Davet Edildi / Onaylandı"
+                            invisible="state not in ('new', 'contacted')"/>
+                    <button name="action_mark_attended" type="object" string="Katıldı"
+                            invisible="state != 'invited' or not event_id"/>
+                    <button name="action_convert_to_lead" type="object" string="Fırsata Dönüştür"
+                            invisible="crm_lead_id"/>
+                    <button name="action_close" type="object" string="Kapat"
+                            invisible="state == 'closed'"/>
+                    <button name="action_reopen" type="object" string="Yeniden Aç"
+                            invisible="state != 'closed'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,contacted,invited,attended"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_convert_to_lead" type="object" class="oe_stat_button"
+                                icon="fa-handshake-o" invisible="not crm_lead_id">
+                            <span>CRM Fırsatı</span>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Kişi">
+                            <field name="contact_name"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                            <field name="lang" readonly="1" invisible="not lang"/>
+                        </group>
+                        <group string="Talep">
+                            <field name="event_id" options="{'no_create': True}"/>
+                            <field name="country_id" options="{'no_create': True}"/>
+                            <field name="city"/>
+                            <field name="treatment_interest"/>
+                            <field name="agency_id" options="{'no_create': True}"/>
+                            <field name="source" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Not">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                    <group invisible="not privacy_consent">
+                        <field name="privacy_consent"/>
+                        <field name="privacy_consent_date"/>
+                        <field name="crm_lead_id" invisible="not crm_lead_id"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_dental_event_request_graph" model="ir.ui.view">
+        <field name="name">dental.event.request.graph</field>
+        <field name="model">dental.event.request</field>
+        <field name="arch" type="xml">
+            <graph string="Ülkeye Göre Talepler" type="bar">
+                <field name="country_id"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_dental_event_request_pivot" model="ir.ui.view">
+        <field name="name">dental.event.request.pivot</field>
+        <field name="model">dental.event.request</field>
+        <field name="arch" type="xml">
+            <pivot string="Talep Analizi">
+                <field name="event_id" type="row"/>
+                <field name="country_id" type="row"/>
+                <field name="treatment_interest" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_dental_event_request_search" model="ir.ui.view">
+        <field name="name">dental.event.request.search</field>
+        <field name="model">dental.event.request</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="contact_name"/>
+                <field name="event_id"/>
+                <field name="country_id"/>
+                <field name="city"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <filter name="open" string="Açık" domain="[('state', '!=', 'closed')]"/>
+                <filter name="new" string="Yeni" domain="[('state', '=', 'new')]"/>
+                <filter name="event_application" string="Etkinlik Başvurusu" domain="[('event_id', '!=', False)]"/>
+                <filter name="general_request" string="Genel Talep (etkinlik yok)" domain="[('event_id', '=', False)]"/>
+                <filter name="not_converted" string="Fırsata Dönüşmemiş" domain="[('crm_lead_id', '=', False)]"/>
+                <separator/>
+                <filter name="last_90_days" string="Son 90 Gün"
+                        domain="[('create_date', '&gt;=', (context_today() - relativedelta(days=90)).strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Grupla">
+                    <filter name="group_event" string="Etkinlik" context="{'group_by': 'event_id'}"/>
+                    <filter name="group_country" string="Ülke" context="{'group_by': 'country_id'}"/>
+                    <filter name="group_city" string="Şehir" context="{'group_by': 'city'}"/>
+                    <filter name="group_treatment" string="Tedavi" context="{'group_by': 'treatment_interest'}"/>
+                    <filter name="group_state" string="Durum" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_dental_event_request" model="ir.actions.act_window">
+        <field name="name">Başvurular ve Talepler</field>
+        <field name="res_model">dental.event.request</field>
+        <field name="view_mode">list,graph,pivot,form</field>
+        <field name="search_view_id" ref="view_dental_event_request_search"/>
+        <field name="context">{'search_default_open': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Henüz başvuru yok</p>
+            <p>Etkinliğe bağlı kayıtlar o etkinliğe yapılan başvurulardır. Etkinliği olmayan kayıtlar
+               "şehrime de gelin" talepleridir; ülke ve şehre göre gruplayarak sıradaki etkinliğin
+               yerine karar verebilirsiniz.</p>
+        </field>
+    </record>
+</odoo>

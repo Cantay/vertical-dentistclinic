@@ -1,0 +1,10 @@
+.o_dentistclinic_dashboard {
+    .card {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        transition: box-shadow 0.15s ease-in-out;
+    }
+
+    .card[style*="cursor: pointer"]:hover {
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    }
+}

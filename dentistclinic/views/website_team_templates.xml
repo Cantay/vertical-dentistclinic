@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="team_member_card" name="Ekip Üyesi Kartı">
+        <div class="col-sm-6 col-lg-3 mb-4">
+            <a t-att-href="member.dental_website_url" class="dental-team-card d-block h-100 text-reset text-decoration-none">
+                <div class="dental-team-card__photo">
+                    <img t-att-src="'/our-team/photo/%s?v=%s' % (member.id, member.write_date.strftime('%Y%m%d%H%M%S'))" t-att-alt="member.name" loading="lazy"/>
+                </div>
+                <div class="dental-team-card__body">
+                    <h3 class="h5 mb-1">
+                        <t t-if="member.dental_title"><t t-out="member.dental_title"/> </t><t t-out="member.name"/>
+                    </h3>
+                    <div class="text-muted small mb-2">
+                        <t t-out="member.dental_website_subtitle"/>
+                    </div>
+                    <p t-if="member.dental_short_bio" class="mb-0 small" t-out="member.dental_short_bio"/>
+                </div>
+            </a>
+        </div>
+    </template>
+
+    <template id="team_page" name="Ekibimiz">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Our Team</t>
+            <div id="wrap" class="s_dental_team_page">
+                <section class="pt48 pb48">
+                    <div class="container">
+                        <div class="text-center mb-5">
+                            <h1>Our Team</h1>
+                            <p class="lead text-muted">Meet our dentists and clinic team.</p>
+                        </div>
+                        <div t-if="members" class="row">
+                            <t t-foreach="members" t-as="member">
+                                <t t-call="dentistclinic.team_member_card"/>
+                                <div t-if="member.dental_website_separator_after and not member_last" class="col-12 my-4" role="separator">
+                                    <hr class="m-0"/>
+                                </div>
+                            </t>
+                        </div>
+                        <p t-else="" class="text-center text-muted">No team members have been published yet.</p>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="team_profile_page" name="Ekip Üyesi Profili">
+        <t t-call="website.layout">
+            <t t-set="additional_title" t-value="member.name"/>
+            <div id="wrap" class="s_dental_team_page">
+                <section class="pt48 pb48">
+                    <div class="container">
+                        <a href="/our-team" class="d-inline-block mb-4">← All team</a>
+                        <div class="row g-5">
+                            <div class="col-md-4">
+                                <div class="dental-team-card__photo dental-team-profile__photo">
+                                    <img t-att-src="'/our-team/photo/%s?v=%s' % (member.id, member.write_date.strftime('%Y%m%d%H%M%S'))" t-att-alt="member.name"/>
+                                </div>
+                                <ul class="list-unstyled mt-4 dental-team-profile__facts">
+                                    <li t-if="member.dental_experience_years">
+                                        <strong>Experience:</strong> <t t-out="member.dental_experience_years"/> years
+                                    </li>
+                                    <li t-if="member.dental_languages">
+                                        <strong>Languages:</strong> <t t-out="member.dental_languages"/>
+                                    </li>
+                                    <t t-if="member.dental_website_show_contact">
+                                        <li t-if="member.work_phone">
+                                            <strong>Phone:</strong>
+                                            <a t-att-href="'tel:%s' % member.work_phone" t-out="member.work_phone"/>
+                                        </li>
+                                        <li t-if="member.work_email">
+                                            <strong>Email:</strong>
+                                            <a t-att-href="'mailto:%s' % member.work_email" t-out="member.work_email"/>
+                                        </li>
+                                    </t>
+                                </ul>
+                                <div class="d-flex gap-3">
+                                    <a t-if="member.dental_instagram_url" t-att-href="member.dental_instagram_url" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa fa-instagram fa-lg"/></a>
+                                    <a t-if="member.dental_linkedin_url" t-att-href="member.dental_linkedin_url" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa fa-linkedin fa-lg"/></a>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h1 class="mb-1">
+                                    <t t-if="member.dental_title"><t t-out="member.dental_title"/> </t><t t-out="member.name"/>
+                                </h1>
+                                <p class="lead text-muted">
+                                    <t t-out="member.dental_website_subtitle"/>
+                                </p>
+                                <div t-if="member.dental_bio" class="mt-4" t-out="member.dental_bio"/>
+                                <div t-if="education_lines" class="mt-4">
+                                    <h2 class="h5">Education</h2>
+                                    <ul>
+                                        <li t-foreach="education_lines" t-as="line" t-out="line"/>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

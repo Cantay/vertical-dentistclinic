@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="mail_template_appointment_reminder" model="mail.template">
+        <field name="name">Randevu Hatırlatma</field>
+        <field name="model_id" ref="model_dental_appointment"/>
+        <field name="subject">Randevu Hatırlatması - {{ object.company_id.name }}</field>
+        <field name="email_from">{{ (object.company_id.email or user.email) }}</field>
+        <field name="partner_to">{{ object.patient_id.id }}</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>Sayın {{ object.patient_id.name }},</p>
+                <p>{{ object.start_datetime }} tarihli randevunuzu hatırlatmak isteriz.</p>
+                <p>{{ object.company_id.name }}</p>
+            </div>
+        </field>
+    </record>
+
+    <record id="sms_template_appointment_reminder" model="sms.template">
+        <field name="name">Randevu Hatırlatma SMS</field>
+        <field name="model_id" ref="model_dental_appointment"/>
+        <field name="body">Sayın {{ object.patient_id.name }}, {{ object.start_datetime }} tarihli randevunuzu hatırlatırız. {{ object.company_id.name }}</field>
+    </record>
+
+    <record id="mail_template_recall_reminder" model="mail.template">
+        <field name="name">Kontrol Hatırlatma (Recall)</field>
+        <field name="model_id" ref="model_dental_treatment_plan"/>
+        <field name="subject">Kontrol Zamanınız Geldi - {{ object.company_id.name }}</field>
+        <field name="email_from">{{ (object.company_id.email or user.email) }}</field>
+        <field name="partner_to">{{ object.patient_id.id }}</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>Sayın {{ object.patient_id.name }},</p>
+                <p>{{ object.done_date }} tarihinde tamamlanan tedavinizin kontrol zamanı geldi.
+                   Kliniğimizden randevu almanızı rica ederiz.</p>
+                <p>{{ object.company_id.name }}</p>
+            </div>
+        </field>
+    </record>
+
+    <record id="sms_template_recall_reminder" model="sms.template">
+        <field name="name">Kontrol Hatırlatma SMS</field>
+        <field name="model_id" ref="model_dental_treatment_plan"/>
+        <field name="body">Sayın {{ object.patient_id.name }}, tedavinizin kontrol zamanı geldi. Randevu için bizi arayabilirsiniz. {{ object.company_id.name }}</field>
+    </record>
+
+    <record id="mail_template_consent_request" model="mail.template">
+        <field name="name">Dijital Onam Talebi</field>
+        <field name="model_id" ref="model_dental_consent"/>
+        <field name="subject">Tedavi Onam Formunuz - {{ object.company_id.name }}</field>
+        <field name="email_from">{{ (object.company_id.email or user.email) }}</field>
+        <field name="partner_to">{{ object.patient_id.id }}</field>
+        <field name="body_html" type="html">
+            <div>
+                <p>Sayın {{ object.patient_id.name }},</p>
+                <p>Planlanan tedaviniz için onam formunuzu aşağıdaki bağlantıdan
+                   inceleyip onaylayabilirsiniz.</p>
+                <p><a t-att-href="object.get_portal_url()">Onam Formunu Görüntüle ve Onayla</a></p>
+                <p>{{ object.company_id.name }}</p>
+            </div>
+        </field>
+    </record>
+</odoo>

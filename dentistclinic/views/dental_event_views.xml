@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dental_event_list" model="ir.ui.view">
+        <field name="name">dental.event.list</field>
+        <field name="model">dental.event</field>
+        <field name="arch" type="xml">
+            <list string="Dental Events">
+                <field name="date_begin"/>
+                <field name="name"/>
+                <field name="country_id"/>
+                <field name="city"/>
+                <field name="venue" optional="show"/>
+                <field name="doctor_ids" widget="many2many_tags" optional="show"/>
+                <field name="seats_taken"/>
+                <field name="seats_max" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'open'"
+                       decoration-warning="state == 'closed'"
+                       decoration-muted="state in ('done', 'cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_dental_event_form" model="ir.ui.view">
+        <field name="name">dental.event.form</field>
+        <field name="model">dental.event</field>
+        <field name="arch" type="xml">
+            <form string="Dental Event">
+                <header>
+                    <button name="action_open" type="object" string="Başvuruya Aç" class="oe_highlight"
+                            invisible="state not in ('draft', 'closed')"/>
+                    <button name="action_close_registration" type="object" string="Başvuruyu Kapat"
+                            invisible="state != 'open'"/>
+                    <button name="action_done" type="object" string="Tamamlandı"
+                            invisible="state not in ('open', 'closed')"/>
+                    <button name="action_cancel" type="object" string="İptal Et"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <button name="action_draft" type="object" string="Taslağa Al"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,closed,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_requests" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="seats_taken" widget="statinfo" string="Başvuru"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Dolu" bg_color="text-bg-warning" invisible="not is_full"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="örn. Consultation Day in London"/></h1>
+                    </div>
+                    <group>
+                        <group string="Zaman">
+                            <field name="date_begin"/>
+                            <field name="date_end"/>
+                            <field name="date_tz"/>
+                        </group>
+                        <group string="Yer">
+                            <field name="country_id" options="{'no_create': True}"/>
+                            <field name="city"/>
+                            <field name="venue"/>
+                            <field name="address"/>
+                        </group>
+                        <group string="Katılım">
+                            <field name="doctor_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="seats_max"/>
+                            <field name="seats_available" invisible="not seats_max"/>
+                            <field name="is_full" invisible="1"/>
+                        </group>
+                        <group string="Diğer">
+                            <field name="agency_id" options="{'no_create': True}"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sitedeki Açıklama" name="description">
+                            <field name="description" placeholder="Etkinlik kartında görünecek 2-3 cümle. Örn. kimler katılıyor, neler getirilmeli."/>
+                        </page>
+                        <page string="Başvurular" name="requests">
+                            <field name="request_ids" readonly="1">
+                                <list>
+                                    <field name="create_date" string="Tarih" widget="date"/>
+                                    <field name="contact_name"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                    <field name="treatment_interest"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_dental_event_calendar" model="ir.ui.view">
+        <field name="name">dental.event.calendar</field>
+        <field name="model">dental.event</field>
+        <field name="arch" type="xml">
+            <calendar string="Dental Events" date_start="date_begin" date_stop="date_end"
+                      color="country_id" mode="month" quick_create="0">
+                <field name="city"/>
+                <field name="venue"/>
+                <field name="seats_taken"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="view_dental_event_search" model="ir.ui.view">
+        <field name="name">dental.event.search</field>
+        <field name="model">dental.event</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="country_id"/>
+                <field name="city"/>
+                <field name="doctor_ids"/>
+                <filter name="upcoming" string="Yaklaşan"
+                        domain="[('date_end', '&gt;=', context_today().strftime('%Y-%m-%d')), ('state', 'not in', ('done', 'cancelled'))]"/>
+                <filter name="open" string="Başvuruya Açık" domain="[('state', '=', 'open')]"/>
+                <separator/>
+                <filter name="past" string="Geçmiş" domain="[('state', '=', 'done')]"/>
+                <group expand="0" string="Grupla">
+                    <filter name="group_country" string="Ülke" context="{'group_by': 'country_id'}"/>
+                    <filter name="group_state" string="Durum" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_dental_event" model="ir.actions.act_window">
+        <field name="name">Dental Events</field>
+        <field name="res_model">dental.event</field>
+        <field name="view_mode">list,calendar,form</field>
+        <field name="search_view_id" ref="view_dental_event_search"/>
+        <field name="context">{'search_default_upcoming': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">İlk Dental Event'i tanımlayın</p>
+            <p>Tarih, şehir ve kontenjanı girip "Başvuruya Aç" dediğinizde etkinlik web sitesindeki
+               Dental Events bloğunda listelenir ve ziyaretçiler başvurabilir.</p>
+        </field>
+    </record>
+</odoo>

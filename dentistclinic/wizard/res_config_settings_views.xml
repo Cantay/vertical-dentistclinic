@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.dentistclinic</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="20"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Diş Kliniği" data-string="Diş Kliniği" name="dentistclinic"
+                     groups="dentistclinic.group_dentistclinic_manager">
+                    <block title="Özellikler" name="dentistclinic_features_container">
+                        <setting id="dentistclinic_online_appointment"
+                                 string="Online Randevu (Website)"
+                                 help="Hastaların website üzerinden online randevu talep etmesine izin verir.">
+                            <field name="dentistclinic_online_appointment_enabled"/>
+                            <div class="content-group mt8" invisible="not dentistclinic_online_appointment_enabled">
+                                <label for="dentistclinic_slot_duration" string="Randevu süresi (dakika)"/>
+                                <field name="dentistclinic_slot_duration" class="oe_inline ms-2"/>
+                                <div class="text-muted small mt4">
+                                    Gelişmiş rezervasyon formu, hekimin Çalışma Saatleri takvimini bu süreye bölerek boş saatleri gösterir.
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="dentistclinic_lab_tracking"
+                                 string="Laboratuvar Takibi"
+                                 help="Dış laboratuvara gönderilen işlerin (kuron, protez vb.) takibini açar.">
+                            <field name="dentistclinic_lab_tracking_enabled"/>
+                        </setting>
+                        <setting id="dentistclinic_consent"
+                                 string="Dijital Onam Formu"
+                                 help="Tedavi öncesi hastadan dijital onay alma özelliğini açar.">
+                            <field name="dentistclinic_consent_enabled"/>
+                        </setting>
+                        <setting id="dentistclinic_whatsapp"
+                                 string="WhatsApp Hatırlatmaları"
+                                 help="Randevu ve kontrol hatırlatmalarının WhatsApp üzerinden de gönderilmesini açar. Meta WhatsApp Business hesabı bağlanmış olmalıdır.">
+                            <field name="dentistclinic_whatsapp_enabled"/>
+                            <div class="content-group" invisible="not dentistclinic_whatsapp_enabled">
+                                <div class="mt8" invisible="dentistclinic_whatsapp_gateway_id">
+                                    <span class="text-warning">
+                                        Önce Ayarlar → Teknik → Mail Gateway'den bir WhatsApp gateway kaydı
+                                        oluşturup Meta hesabınızı bağlamanız gerekiyor.
+                                    </span>
+                                </div>
+                                <div class="mt8" invisible="not dentistclinic_whatsapp_gateway_id or dentistclinic_whatsapp_templates_ready">
+                                    <button name="action_dentistclinic_create_whatsapp_templates" type="object"
+                                            string="WhatsApp Şablonlarını Oluştur" class="btn-link" icon="oi-arrow-right"/>
+                                </div>
+                                <div class="mt8" invisible="not dentistclinic_whatsapp_templates_ready">
+                                    <span class="text-success">WhatsApp şablonları hazır.</span>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting id="dentistclinic_health_tourism"
+                                 string="Sağlık Turizmi Modülü"
+                                 help="Yurtdışı hasta süreci için CRM pipeline, acente/komisyon takibi ve seyahat bilgisi özelliklerini açar.">
+                            <field name="dentistclinic_health_tourism_enabled"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_dentistclinic_settings" model="ir.actions.act_window">
+        <field name="name">Diş Kliniği Ayarları</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'dentistclinic'}</field>
+    </record>
+</odoo>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dental_patient_list" model="ir.ui.view">
+        <field name="name">res.partner.list.dental.patient</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list string="Hastalar">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="mobile"/>
+                <field name="birth_date"/>
+                <field name="identification_no"/>
+                <field name="nationality_id"/>
+                <field name="country_id" optional="hide"/>
+                <field name="is_international_patient" widget="boolean_toggle"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_dental_patient_form" model="ir.ui.view">
+        <field name="name">res.partner.form.dental.patient</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form string="Hasta">
+                <sheet>
+                    <field name="is_dental_patient" invisible="1"/>
+                    <field name="image_1920" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name" string="Hasta Adı"/>
+                        <h1><field name="name" placeholder="Hasta Adı Soyadı"/></h1>
+                    </div>
+                    <group>
+                        <group string="İletişim">
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="email"/>
+                        </group>
+                        <group string="Kişisel Bilgiler">
+                            <field name="identification_no"/>
+                            <field name="passport_no"/>
+                            <field name="nationality_id"/>
+                            <field name="country_id" string="İkamet Ülkesi"/>
+                            <field name="lang" string="Konuştuğu Dil"/>
+                            <field name="birth_date"/>
+                            <field name="blood_type"/>
+                            <field name="referral_source"/>
+                            <field name="referring_agency_id"
+                                   invisible="referral_source != 'agency'"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Sağlık Bilgileri">
+                        <field name="allergies" placeholder="Bilinen alerjiler..."/>
+                        <field name="anamnesis" placeholder="Genel sağlık geçmişi, kronik hastalıklar..."/>
+                    </group>
+                    <notebook>
+                        <page name="appointments" string="Randevular">
+                            <field name="appointment_ids" nolabel="1">
+                                <list>
+                                    <field name="start_datetime"/>
+                                    <field name="doctor_id"/>
+                                    <field name="appointment_type"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="treatment_plans" string="Tedavi Planları">
+                            <field name="treatment_plan_ids" nolabel="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="doctor_id"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="travel_info" string="Seyahat Bilgileri"
+                              invisible="not is_international_patient">
+                            <field name="travel_info_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="arrival_date"/>
+                                    <field name="departure_date"/>
+                                    <field name="hotel_name"/>
+                                    <field name="needs_transfer"/>
+                                    <field name="needs_translator"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dental_patient" model="ir.actions.act_window">
+        <field name="name">Hastalar</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_dental_patient', '=', True)]</field>
+        <field name="context">{'default_is_dental_patient': True, 'default_is_company': False}</field>
+        <field name="view_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_dental_patient_list')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_dental_patient_form')}),
+        ]"/>
+    </record>
+
+    <record id="view_dental_agency_list" model="ir.ui.view">
+        <field name="name">res.partner.list.dental.agency</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list string="Sağlık Turizmi Acenteleri">
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="country_id"/>
+                <field name="commission_rate"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_dental_agency_form" model="ir.ui.view">
+        <field name="name">res.partner.form.dental.agency</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form string="Sağlık Turizmi Acentesi">
+                <sheet>
+                    <field name="is_health_tourism_agency" invisible="1"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Acente Adı"/></h1>
+                    </div>
+                    <group>
+                        <group string="İletişim">
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="website"/>
+                            <field name="country_id"/>
+                        </group>
+                        <group string="Komisyon">
+                            <field name="commission_rate"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="referred_patients" string="Yönlendirilen Hastalar">
+                            <field name="dental_patient_ids" nolabel="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="nationality_id"/>
+                                    <field name="phone"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="commissions" string="Komisyonlar">
+                            <field name="commission_ids" nolabel="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="treatment_plan_id"/>
+                                    <field name="invoice_amount"/>
+                                    <field name="amount"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dental_agency" model="ir.actions.act_window">
+        <field name="name">Sağlık Turizmi Acenteleri</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_health_tourism_agency', '=', True)]</field>
+        <field name="context">{'default_is_health_tourism_agency': True, 'default_is_company': True}</field>
+        <field name="view_ids" eval="[
+            (5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('view_dental_agency_list')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_dental_agency_form')}),
+        ]"/>
+    </record>
+</odoo>

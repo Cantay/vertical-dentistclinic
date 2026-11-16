@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_consent_page" name="Dijital Onam Sayfası">
+        <t t-call="website.layout">
+            <div id="wrap" class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm">
+                            <div class="card-body p-4">
+                                <h2 class="mb-1">Treatment Consent Form</h2>
+                                <p class="text-muted">
+                                    <t t-esc="consent.name"/> — <t t-esc="consent.patient_id.name"/>
+                                </p>
+
+                                <t t-if="consent.state == 'signed'">
+                                    <div class="alert alert-success">
+                                        This consent form was approved by <t t-esc="consent.signer_name"/> on
+                                        <t t-esc="consent.signed_date"/>.
+                                    </div>
+                                </t>
+                                <t t-elif="consent.state == 'declined'">
+                                    <div class="alert alert-warning">
+                                        This consent form has been declined. Please contact our clinic.
+                                    </div>
+                                </t>
+
+                                <div class="consent-text border rounded p-3 mb-4" t-raw="consent.consent_text"/>
+
+                                <t t-if="consent.state not in ('signed', 'declined')">
+                                    <form method="post" t-attf-action="/dentistclinic/consent/#{consent.id}/#{consent.access_token}/sign">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <div class="mb-3">
+                                            <label class="form-label">Full Name (Approver)</label>
+                                            <input type="text" class="form-control" name="signer_name" required="required"/>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <button type="submit" name="action" value="sign" class="btn btn-primary">
+                                                I Approve
+                                            </button>
+                                            <button type="submit" name="action" value="decline" class="btn btn-outline-secondary">
+                                                I Decline
+                                            </button>
+                                        </div>
+                                    </form>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

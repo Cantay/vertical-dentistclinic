@@ -1,0 +1,44 @@
+.o_dental_odontogram {
+    .dental-arch {
+        gap: 4px;
+    }
+
+    .dental-arch-divider {
+        width: 2px;
+        background: #ccc;
+        margin: 0 6px;
+    }
+
+    .dental-tooth {
+        width: 34px;
+        height: 34px;
+        border: 1px solid #adb5bd;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        cursor: pointer;
+        background: #fff;
+        user-select: none;
+
+        &:hover {
+            border-color: #5b9bd5;
+        }
+    }
+
+    .dental-tooth-planned {
+        background: #fff3cd;
+        border-color: #e0ac00;
+    }
+
+    .dental-tooth-done {
+        background: #d1e7dd;
+        border-color: #1e7e34;
+    }
+
+    .dental-tooth-invoiced {
+        background: #cfe2ff;
+        border-color: #0d6efd;
+    }
+}

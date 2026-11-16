@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dental_travel_info_list" model="ir.ui.view">
+        <field name="name">dental.travel.info.list</field>
+        <field name="model">dental.travel.info</field>
+        <field name="arch" type="xml">
+            <list string="Seyahat Bilgileri">
+                <field name="patient_id"/>
+                <field name="arrival_date"/>
+                <field name="departure_date"/>
+                <field name="hotel_name"/>
+                <field name="needs_transfer"/>
+                <field name="needs_translator"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_dental_travel_info_form" model="ir.ui.view">
+        <field name="name">dental.travel.info.form</field>
+        <field name="model">dental.travel.info</field>
+        <field name="arch" type="xml">
+            <form string="Seyahat Bilgisi">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="patient_id"/></h1>
+                    </div>
+                    <group>
+                        <group string="Uçuş">
+                            <field name="arrival_date"/>
+                            <field name="flight_number_arrival"/>
+                            <field name="departure_date"/>
+                            <field name="flight_number_departure"/>
+                        </group>
+                        <group string="Konaklama">
+                            <field name="hotel_name"/>
+                            <field name="hotel_address"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="treatment_plan_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Transfer">
+                            <field name="needs_transfer"/>
+                            <field name="transfer_notes" invisible="not needs_transfer"/>
+                        </group>
+                        <group string="Tercüman">
+                            <field name="needs_translator"/>
+                            <field name="translator_language" invisible="not needs_translator"/>
+                        </group>
+                    </group>
+                    <group string="Notlar">
+                        <field name="notes" nolabel="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dental_travel_info" model="ir.actions.act_window">
+        <field name="name">Seyahat Bilgileri</field>
+        <field name="res_model">dental.travel.info</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

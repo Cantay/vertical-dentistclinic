@@ -1,0 +1,755 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dentistclinic
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.portal_consent_page
+msgid "."
+msgstr "tarihinde onaylanmıştır."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_online_appointment
+msgid ""
+"<select class=\"form-select\" name=\"appointment_type\">\n"
+"                                        <option value=\"examination\">Examination</option>\n"
+"                                        <option value=\"control\">Check-up</option>\n"
+"                                        <option value=\"treatment\">Treatment</option>\n"
+"                                        <option value=\"emergency\">Emergency</option>\n"
+"                                    </select>"
+msgstr ""
+"<select class=\"form-select\" name=\"appointment_type\">\n"
+"                                        <option value=\"examination\">Muayene</option>\n"
+"                                        <option value=\"control\">Kontrol</option>\n"
+"                                        <option value=\"treatment\">Tedavi</option>\n"
+"                                        <option value=\"emergency\">Acil</option>\n"
+"                                    </select>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid ""
+"<select class=\"form-select\" name=\"country_id\">\n"
+"                                            <option value=\"\">Loading...</option>\n"
+"                                        </select>"
+msgstr ""
+"<select class=\"form-select\" name=\"country_id\">\n"
+"                                            <option value=\"\">Yükleniyor...</option>\n"
+"                                        </select>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid ""
+"<select class=\"form-select\" name=\"doctor_id\">\n"
+"                                                <option value=\"\">Loading...</option>\n"
+"                                            </select>"
+msgstr ""
+"<select class=\"form-select\" name=\"doctor_id\">\n"
+"                                                <option value=\"\">Yükleniyor...</option>\n"
+"                                            </select>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid ""
+"<select class=\"form-select\" name=\"treatment_interest\">\n"
+"                                        <option value=\"\">Please select</option>\n"
+"                                        <option value=\"implant\">Implants</option>\n"
+"                                        <option value=\"aesthetic\">Aesthetics / Zirconia / Laminate veneers</option>\n"
+"                                        <option value=\"orthodontics\">Orthodontics / Clear aligners</option>\n"
+"                                        <option value=\"checkup\">General examination</option>\n"
+"                                        <option value=\"other\">Other</option>\n"
+"                                    </select>"
+msgstr ""
+"<select class=\"form-select\" name=\"treatment_interest\">\n"
+"                                        <option value=\"\">Seçiniz</option>\n"
+"                                        <option value=\"implant\">İmplant</option>\n"
+"                                        <option value=\"aesthetic\">Estetik / Zirkonyum / Lamina</option>\n"
+"                                        <option value=\"orthodontics\">Ortodonti / Şeffaf Plak</option>\n"
+"                                        <option value=\"checkup\">Genel Muayene</option>\n"
+"                                        <option value=\"other\">Diğer</option>\n"
+"                                    </select>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "<span>1</span>Treatment"
+msgstr "<span>1</span>Tedavi"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "<span>2</span>Dentist &amp; Time"
+msgstr "<span>2</span>Hekim ve Saat"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "<span>3</span>Details"
+msgstr "<span>3</span>Bilgiler"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "<span>4</span>Confirm"
+msgstr "<span>4</span>Onay"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "<span>Check-up</span>"
+msgstr "<span>Kontrol</span>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "<span>Emergency</span>"
+msgstr "<span>Acil</span>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "<span>Examination</span>"
+msgstr "<span>Muayene</span>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_online_appointment
+msgid "<span>Request Appointment</span>"
+msgstr "<span>Randevu Talep Et</span>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid "<span>Send Request</span>"
+msgstr "<span>Talep Gönder</span>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "<span>Treatment</span>"
+msgstr "<span>Tedavi</span>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.team_profile_page
+msgid "<strong>Email:</strong>"
+msgstr "<strong>E-posta:</strong>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.team_profile_page
+msgid "<strong>Experience:</strong>"
+msgstr "<strong>Deneyim:</strong>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.team_profile_page
+msgid "<strong>Languages:</strong>"
+msgstr "<strong>Diller:</strong>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.team_profile_page
+msgid "<strong>Phone:</strong>"
+msgstr "<strong>Telefon:</strong>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.dentistclinic_snippets
+msgid "Advanced Online Booking"
+msgstr "Gelişmiş Online Randevu"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_online_appointment
+msgid "Appointment Type"
+msgstr "Randevu Türü"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Appointment type"
+msgstr "Randevu türü"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid "At least one of phone or email is required."
+msgstr "Telefon veya e-postadan en az biri gereklidir."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Available times"
+msgstr "Müsait saatler"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Back"
+msgstr "Geri"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Book an Appointment Online"
+msgstr "Online Randevu Al"
+
+#. module: dentistclinic
+#. odoo-javascript
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+msgid "Choose a dentist and a date to see available times."
+msgstr "Saatleri görmek için hekim ve tarih seçin."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Choose the appointment type"
+msgstr "Randevu türünü seçin"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Choose your dentist and a time that suits you."
+msgstr "Hekiminizi ve size uygun saati seçin."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid "City *"
+msgstr "Şehir *"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Confirm Appointment"
+msgstr "Randevuyu Onayla"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid "Country *"
+msgstr "Ülke *"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Date"
+msgstr "Tarih"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Date / Time"
+msgstr "Tarih / Saat"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Dentist"
+msgstr "Hekim"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.team_profile_page
+msgid "Education"
+msgstr "Eğitim"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_online_appointment
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid "Email"
+msgstr "E-posta"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_online_appointment
+msgid "Fill in the form and our clinic team will get in touch with you."
+msgstr "Formu doldurun, klinik ekibimiz sizinle iletişime geçsin."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_online_appointment
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Full Name"
+msgstr "Ad Soyad"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.portal_consent_page
+msgid "Full Name (Approver)"
+msgstr "Ad Soyad (Onaylayan)"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid "Full Name *"
+msgstr "Ad Soyad *"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.portal_consent_page
+msgid "I Approve"
+msgstr "Onaylıyorum"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.portal_consent_page
+msgid "I Decline"
+msgstr "Reddediyorum"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_team
+msgid "Loading team information..."
+msgstr "Ekip bilgileri yükleniyor..."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_team
+#: model_terms:ir.ui.view,arch_db:dentistclinic.team_page
+msgid "Meet our dentists and clinic team."
+msgstr "Hekimlerimiz ve klinik ekibimizle tanışın."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Next"
+msgstr "İleri"
+
+#. module: dentistclinic
+#. odoo-javascript
+#: model_terms:ir.ui.view,arch_db:dentistclinic.team_page
+#: code:addons/dentistclinic/static/src/js/dentistclinic_team.js:0
+msgid "No team members have been published yet."
+msgstr "Henüz yayınlanmış bir ekip üyesi yok."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_online_appointment
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid "Note"
+msgstr "Not"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.portal_consent_page
+msgid "on"
+msgstr "tarafından"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.dentistclinic_snippets
+msgid "Online Appointment"
+msgstr "Online Randevu"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_online_appointment
+msgid "Online Appointment Request"
+msgstr "Online Randevu Talebi"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_team
+#: model_terms:ir.ui.view,arch_db:dentistclinic.team_page
+msgid "Our Team"
+msgstr "Ekibimiz"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.dentistclinic_snippets
+msgid "Our Team (Dynamic)"
+msgstr "Ekibimiz (Dinamik)"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_online_appointment
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid "Phone"
+msgstr "Telefon"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Phone *"
+msgstr "Telefon *"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_online_appointment
+msgid "Preferred Date"
+msgstr "Tercih Edilen Tarih"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_team
+msgid "See the Whole Team"
+msgstr "Tüm Ekibi Gör"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Thank you!"
+msgstr "Teşekkürler!"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.portal_consent_page
+msgid "This consent form has been declined. Please contact our clinic."
+msgstr "Bu onam formu reddedilmiştir. Lütfen kliniğimizle iletişime geçin."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.portal_consent_page
+msgid "This consent form was approved by"
+msgstr "Bu onam formu"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.portal_consent_page
+msgid "Treatment Consent Form"
+msgstr "Tedavi Onam Formu"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid "Treatment you’re interested in"
+msgstr "İlgilendiğiniz tedavi"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.team_profile_page
+msgid "years"
+msgstr "yıl"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Your appointment summary"
+msgstr "Randevu özetiniz"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_online_appointment
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_booking_wizard
+msgid "Your concern or anything you’d like to add..."
+msgstr "Şikayetiniz veya eklemek istediğiniz bilgi..."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.team_profile_page
+msgid "← All team"
+msgstr "← Tüm ekip"
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_appointment_form.js:0
+msgid "Request Appointment"
+msgstr "Randevu Talep Et"
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_appointment_form.js:0
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+msgid "Your appointment request could not be sent."
+msgstr "Randevu talebiniz gönderilemedi."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_appointment_form.js:0
+msgid "Sending..."
+msgstr "Gönderiliyor..."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+msgid "Your appointment request could not be sent, please try again."
+msgstr "Randevu talebiniz gönderilemedi, lütfen tekrar deneyin."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+#: code:addons/dentistclinic/static/src/js/dentistclinic_event_request.js:0
+msgid "Connection error, please refresh the page."
+msgstr "Bağlantı hatası, lütfen sayfayı yenileyin."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+msgid "No dentist found"
+msgstr "Hekim bulunamadı"
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+msgid "Choose a dentist"
+msgstr "Hekim seçin"
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+msgid "No dentists are available for online booking"
+msgstr "Online randevuya açık hekim yok"
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+msgid "Loading available times..."
+msgstr "Müsait saatler yükleniyor..."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+msgid "No times are available on this date, please choose another day."
+msgstr "Bu tarihte müsait saat yok, lütfen başka bir gün seçin."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+msgid "Please choose a dentist."
+msgstr "Lütfen bir hekim seçin."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+msgid "Please choose an available time."
+msgstr "Lütfen müsait bir saat seçin."
+
+#. module: dentistclinic
+#. odoo-javascript
+#. odoo-python
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+#: code:addons/dentistclinic/static/src/js/dentistclinic_event_request.js:0
+#: code:addons/dentistclinic/controllers/event_request.py:0
+msgid "Full name is required."
+msgstr "Ad soyad zorunludur."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+msgid "Phone is required."
+msgstr "Telefon zorunludur."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_booking_wizard.js:0
+#: code:addons/dentistclinic/static/src/js/dentistclinic_event_request.js:0
+msgid "Please enter a valid email address."
+msgstr "Geçerli bir e-posta adresi girin."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_event_request.js:0
+msgid "Select a country"
+msgstr "Ülke seçin"
+
+#. module: dentistclinic
+#. odoo-javascript
+#. odoo-python
+#: code:addons/dentistclinic/static/src/js/dentistclinic_event_request.js:0
+#: code:addons/dentistclinic/controllers/event_request.py:0
+msgid "Please select a country."
+msgstr "Lütfen ülke seçin."
+
+#. module: dentistclinic
+#. odoo-javascript
+#. odoo-python
+#: code:addons/dentistclinic/static/src/js/dentistclinic_event_request.js:0
+#: code:addons/dentistclinic/controllers/event_request.py:0
+msgid "Full name and city are required."
+msgstr "Ad soyad ve şehir zorunludur."
+
+#. module: dentistclinic
+#. odoo-javascript
+#. odoo-python
+#: code:addons/dentistclinic/static/src/js/dentistclinic_event_request.js:0
+#: code:addons/dentistclinic/controllers/event_request.py:0
+msgid "Please enter at least a phone number or an email address."
+msgstr "Telefon veya e-posta bilgilerinden en az birini girin."
+
+#. module: dentistclinic
+#. odoo-javascript
+#. odoo-python
+#: code:addons/dentistclinic/static/src/js/dentistclinic_event_request.js:0
+#: code:addons/dentistclinic/controllers/event_request.py:0
+msgid "To continue, please accept the privacy notice."
+msgstr "Devam etmek için KVKK aydınlatma metnini onaylamanız gerekir."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_event_request.js:0
+msgid "Your request could not be sent."
+msgstr "Talebiniz gönderilemedi."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_event_request.js:0
+msgid "Your request could not be sent, please try again."
+msgstr "Talebiniz gönderilemedi, lütfen tekrar deneyin."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_team.js:0
+msgid "Team information could not be loaded right now."
+msgstr "Ekip bilgileri şu anda yüklenemedi."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/main.py:0
+msgid "Online booking is currently unavailable."
+msgstr "Online randevu özelliği şu anda kapalı."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/main.py:0
+msgid "Name and phone are required."
+msgstr "Ad ve telefon alanları zorunludur."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/main.py:0
+msgid ""
+"Your appointment request has been received. Our clinic team will call you "
+"shortly."
+msgstr ""
+"Randevu talebiniz alındı, klinik ekibimiz en kısa sürede sizi arayacaktır."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/main.py:0
+msgid "Invalid dentist or date."
+msgstr "Geçersiz hekim veya tarih."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/main.py:0
+msgid "Invalid appointment type."
+msgstr "Geçersiz randevu türü."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/main.py:0
+msgid "Invalid dentist or time."
+msgstr "Geçersiz hekim veya saat."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/main.py:0
+msgid ""
+"The time you selected is no longer available, please choose another time."
+msgstr "Seçtiğiniz saat artık müsait değil, lütfen başka bir saat seçin."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/main.py:0
+msgid ""
+"Your appointment request has been received. Our clinic team will contact you"
+" to confirm."
+msgstr ""
+"Randevu talebiniz alındı. Klinik ekibimiz onay için sizinle iletişime "
+"geçecektir."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/event_request.py:0
+msgid "The request form is currently closed."
+msgstr "Talep formu şu anda kapalı."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/event_request.py:0
+msgid ""
+"Your request has been received. We will let you know when a consultation day"
+" is planned in your area."
+msgstr ""
+"Talebiniz alındı. Bölgenizde bir danışma günü planlandığında sizi "
+"bilgilendireceğiz."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid ""
+"<span class=\"form-check-label\">\n"
+"                                        I have read and accept the <a href=\"/privacy\" target=\"_blank\" class=\"o_translate_inline\">privacy notice</a> on the processing of my personal data for this request. *\n"
+"                                    </span>"
+msgstr ""
+"<span class=\"form-check-label\">\n"
+"                                        Kişisel verilerimin talebim kapsamında işlenmesine ilişkin <a href=\"/privacy\" target=\"_blank\" class=\"o_translate_inline\">KVKK aydınlatma metnini</a> okudum ve onaylıyorum. *\n"
+"                                    </span>"
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_events.js:0
+msgid "Events could not be loaded right now."
+msgstr "Etkinlikler şu anda yüklenemedi."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_events.js:0
+msgid ""
+"No events are scheduled right now. Leave your city in the form and we’ll let"
+" you know when we plan one nearby."
+msgstr ""
+"Şu anda planlanmış bir etkinlik yok. Formda şehrinizi bırakın, yakınınızda "
+"bir etkinlik planladığımızda size haber verelim."
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_events.js:0
+msgid "Dentists:"
+msgstr "Hekimler:"
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_events.js:0
+msgid "%s places left"
+msgstr "%s kişilik yer kaldı"
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_events.js:0
+msgid "Fully booked"
+msgstr "Kontenjan doldu"
+
+#. module: dentistclinic
+#. odoo-javascript
+#: code:addons/dentistclinic/static/src/js/dentistclinic_events.js:0
+msgid "Apply now"
+msgstr "Hemen başvur"
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/event_request.py:0
+msgid "This event is no longer accepting applications."
+msgstr "Bu etkinlik artık başvuru kabul etmiyor."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/event_request.py:0
+msgid ""
+"Your application for %s has been received. We will contact you to confirm "
+"your place."
+msgstr ""
+"%s başvurunuz alındı. Yerinizi onaylamak için sizinle iletişime geçeceğiz."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/event_request.py:0
+msgid "Sorry, this event is fully booked."
+msgstr "Üzgünüz, bu etkinliğin kontenjanı doldu."
+
+#. module: dentistclinic
+#. odoo-python
+#: code:addons/dentistclinic/controllers/event_request.py:0
+msgid "You have already applied for this event. We will be in touch soon."
+msgstr ""
+"Bu etkinliğe zaten başvurdunuz. En kısa sürede sizinle iletişime geçeceğiz."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid "Apply for a Dental Event"
+msgstr "Dental Event'e başvurun"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid ""
+"Choose an upcoming event, or tell us your city and we’ll let you know when "
+"we plan one there."
+msgstr ""
+"Yaklaşan bir etkinlik seçin ya da şehrinizi bildirin, orada bir etkinlik "
+"planladığımızda size haber verelim."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid "Event"
+msgstr "Etkinlik"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_events
+msgid "Upcoming Dental Events"
+msgstr "Yaklaşan Dental Events"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_events
+msgid "Meet our dentists in person at an event near you."
+msgstr "Hekimlerimizle size yakın bir etkinlikte yüz yüze tanışın."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_events
+msgid "Loading events..."
+msgstr "Etkinlikler yükleniyor..."
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.s_dental_event_request
+msgid ""
+"<select class=\"form-select\" name=\"event_id\">\n"
+"                                        <option value=\"\">My city isn’t listed — let me know when you come</option>\n"
+"                                    </select>"
+msgstr ""
+"<select class=\"form-select\" name=\"event_id\">\n"
+"                                        <option value=\"\">Şehrim listede yok — geldiğinizde haber verin</option>\n"
+"                                    </select>"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.dentistclinic_snippets
+msgid "Dental Events (List)"
+msgstr "Dental Events (Liste)"
+
+#. module: dentistclinic
+#: model_terms:ir.ui.view,arch_db:dentistclinic.dentistclinic_snippets
+msgid "Dental Event Application"
+msgstr "Dental Event Başvurusu"

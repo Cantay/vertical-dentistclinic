@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_dental_treatment_plan" model="ir.sequence">
+        <field name="name">Diş Tedavi Planı</field>
+        <field name="code">dental.treatment.plan</field>
+        <field name="prefix">TP/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_dental_consent" model="ir.sequence">
+        <field name="name">Diş Onam Formu</field>
+        <field name="code">dental.consent</field>
+        <field name="prefix">ON/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_dental_lab_order" model="ir.sequence">
+        <field name="name">Diş Laboratuvar Talebi</field>
+        <field name="code">dental.lab.order</field>
+        <field name="prefix">LAB/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_dental_event_request" model="ir.sequence">
+        <field name="name">Etkinlik Talebi</field>
+        <field name="code">dental.event.request</field>
+        <field name="prefix">ETK/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_dental_commission" model="ir.sequence">
+        <field name="name">Sağlık Turizmi Komisyonu</field>
+        <field name="code">dental.commission</field>
+        <field name="prefix">COM/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>
