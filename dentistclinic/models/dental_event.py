@@ -52,6 +52,9 @@ class DentalEvent(models.Model):
         'res.company', string='Klinik/Şube', required=True,
         default=lambda self: self.env.company)
     color = fields.Integer(string='Renk')
+    image = fields.Image(
+        string='Görsel', max_width=1920, max_height=1920,
+        help='Web sitesindeki etkinlik kartının üstünde gösterilir (yatay, 16:9 önerilir).')
 
     @api.depends('seats_max', 'request_ids.state')
     def _compute_seats(self):
@@ -143,4 +146,6 @@ class DentalEvent(models.Model):
             ],
             'seats_available': self.seats_available if self.seats_max else None,
             'is_full': self.is_full,
+            'image_url': '/dentistclinic/events/image/%s?v=%s' % (
+                self.id, self.write_date.strftime('%Y%m%d%H%M%S')) if self.image else '',
         }

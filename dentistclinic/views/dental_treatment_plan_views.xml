@@ -63,6 +63,7 @@
                     </group>
                     <notebook>
                         <page name="lines" string="Tedavi Satırları">
+                            <field name="dentition" invisible="1"/>
                             <field name="line_ids" widget="dental_odontogram">
                                 <list editable="bottom">
                                     <field name="tooth_number"/>

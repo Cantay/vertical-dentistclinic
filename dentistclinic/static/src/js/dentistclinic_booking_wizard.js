@@ -201,6 +201,11 @@ publicWidget.registry.DentistClinicBookingWizard = publicWidget.Widget.extend({
                 }
                 return;
             }
+            if (this.el.dataset.successPage) {
+                // Per-site redirect (thank-you page / conversion tracking).
+                window.location.assign(this.el.dataset.successPage);
+                return;
+            }
             this._showDone(result.message);
         } catch {
             this._setStatus("is-error", _t("Your appointment request could not be sent, please try again."));

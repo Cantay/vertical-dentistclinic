@@ -93,7 +93,8 @@
                                 <group>
                                     <field name="dental_career_start_year" options="{'format': false}"/>
                                     <field name="dental_experience_years" invisible="not dental_career_start_year"/>
-                                    <field name="dental_languages"/>
+                                    <field name="dental_language_ids" widget="many2many_tags"
+                                           options="{'no_create': True}" placeholder="Türkçe, English, Deutsch…"/>
                                 </group>
                                 <group>
                                     <field name="dental_education" placeholder="Her satıra bir okul / derece"/>
@@ -111,6 +112,13 @@
                                     <field name="dental_website_show_contact"/>
                                     <field name="dental_website_sequence"/>
                                     <field name="dental_website_separator_after"/>
+                                    <field name="dental_website_separator_heading"
+                                           invisible="not dental_website_separator_after"/>
+                                    <field name="dental_website_separator_title"
+                                           invisible="not dental_website_separator_after or not dental_website_separator_heading"
+                                           required="dental_website_separator_after and dental_website_separator_heading"/>
+                                    <field name="dental_website_separator_text"
+                                           invisible="not dental_website_separator_after or not dental_website_separator_heading"/>
                                     <field name="dental_website_url" widget="url" readonly="1"
                                            invisible="not id or not dental_website_published"/>
                                 </group>

@@ -130,6 +130,11 @@ publicWidget.registry.DentistClinicEventRequest = publicWidget.Widget.extend({
             });
             const result = await response.json();
             if (result.success) {
+                if (this.el.dataset.successPage) {
+                    // Per-site redirect (thank-you page / conversion tracking).
+                    window.location.assign(this.el.dataset.successPage);
+                    return;
+                }
                 this.form.reset();
                 this._onEventChange();
                 this._setStatus("is-success", result.message);

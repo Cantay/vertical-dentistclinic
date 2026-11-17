@@ -17,3 +17,4 @@ from . import account_move
 from . import dental_event
 from . import dental_event_request
 from . import ir_http
+from . import res_lang

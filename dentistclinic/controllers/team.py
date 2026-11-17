@@ -61,8 +61,13 @@ class DentistClinicTeam(http.Controller):
 
     @http.route('/dentistclinic/team/data', type='http', auth='public', methods=['GET'],
                 website=True, sitemap=False)
-    def team_data(self, **kwargs):
+    def team_data(self, lang=None, **kwargs):
+        # The page passes its own language so cards match it even when the
+        # request itself carries no language prefix / cookie.
+        members = self._team_members()
+        if lang and lang in request.website.language_ids.mapped('code'):
+            members = members.with_context(lang=lang)
         return request.make_json_response({
             'success': True,
-            'members': [member._dental_website_card() for member in self._team_members()],
+            'members': [member._dental_website_card() for member in members],
         })

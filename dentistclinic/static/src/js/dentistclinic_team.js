@@ -24,7 +24,7 @@ publicWidget.registry.DentistClinicTeam = publicWidget.Widget.extend({
     async _render() {
         let result;
         try {
-            const response = await fetch("/dentistclinic/team/data", {
+            const response = await fetch(`/dentistclinic/team/data?lang=${encodeURIComponent((document.documentElement.lang || "").replace("-", "_"))}`, {
                 headers: { Accept: "application/json" },
             });
             result = await response.json();
@@ -49,6 +49,21 @@ publicWidget.registry.DentistClinicTeam = publicWidget.Widget.extend({
                 const line = document.createElement("hr");
                 line.className = "m-0";
                 separator.appendChild(line);
+                if (member.separator_title) {
+                    const heading = document.createElement("div");
+                    heading.className = "dental-team-separator";
+                    const title = document.createElement("h3");
+                    title.className = "dental-team-separator__title";
+                    title.textContent = member.separator_title;
+                    heading.appendChild(title);
+                    if (member.separator_text) {
+                        const text = document.createElement("p");
+                        text.className = "dental-team-separator__text";
+                        text.textContent = member.separator_text;
+                        heading.appendChild(text);
+                    }
+                    separator.appendChild(heading);
+                }
                 nodes.push(separator);
             }
         });
@@ -88,6 +103,25 @@ publicWidget.registry.DentistClinicTeam = publicWidget.Widget.extend({
             bio.className = "mb-0 small";
             bio.textContent = member.short_bio;
             body.appendChild(bio);
+        }
+        if (member.languages?.length) {
+            const langs = document.createElement("ul");
+            langs.className = "dental-team-langs list-unstyled";
+            for (const lang of member.languages) {
+                const item = document.createElement("li");
+                item.className = "dental-team-langs__item";
+                const flag = document.createElement("img");
+                flag.src = lang.flag_url;
+                flag.alt = "";
+                flag.width = 20;
+                flag.height = 15;
+                flag.loading = "lazy";
+                const label = document.createElement("span");
+                label.textContent = lang.name;
+                item.append(flag, label);
+                langs.appendChild(item);
+            }
+            body.appendChild(langs);
         }
 
         link.append(photo, body);

@@ -12,6 +12,12 @@ class DentalTreatmentPlan(models.Model):
     name = fields.Char(string='Plan Kodu', required=True, copy=False,
                         default=lambda self: self.env['ir.sequence'].next_by_code('dental.treatment.plan'))
     patient_id = fields.Many2one('res.partner', string='Hasta', required=True)
+    dentition = fields.Selection([
+        ('permanent', 'Daimi Dişler (Yetişkin)'),
+        ('primary', 'Süt Dişleri (Çocuk)'),
+        ('mixed', 'Karma Dişlenme'),
+    ], string='Dişlenme', default='permanent', required=True,
+        help='Diş haritasında gösterilecek dişler. Karma dişlenmede süt ve daimi dişler birlikte gösterilir.')
     doctor_id = fields.Many2one(
         'hr.employee', string='Hekim',
         domain=[('is_dentist', '=', True)])
