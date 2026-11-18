@@ -20,6 +20,12 @@ class ResCompany(models.Model):
     dentistclinic_consent_enabled = fields.Boolean(
         string='Dijital Onam Formu', default=True,
         help='Dijital onam formu oluşturma/gönderme özelliğini açar.')
+    dentistclinic_max_discount = fields.Float(
+        string='Maks. İndirim (%)', default=10.0,
+        help='Diş kliniği kullanıcılarının teklif/tedavi planında yapabileceği en yüksek indirim. '
+             'Yöneticiler için sınır yoktur.')
+    dentistclinic_quote_validity_days = fields.Integer(
+        string='Teklif Geçerlilik Süresi (gün)', default=30)
     dentistclinic_slot_duration = fields.Integer(
         string='Online Randevu Süresi (dk)', default=30,
         help='Website rezervasyon formunda her randevu slotunun süresi.')

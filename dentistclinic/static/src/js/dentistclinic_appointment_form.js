@@ -41,6 +41,11 @@ publicWidget.registry.DentistClinicOnlineAppointmentForm = publicWidget.Widget.e
                 throw new Error(result.error || _t("Your appointment request could not be sent."));
             }
             form.reset();
+            if (this.el.dataset.successPage) {
+                // Per-site redirect (thank-you page / conversion tracking).
+                window.location.assign(this.el.dataset.successPage);
+                return;
+            }
             this._setStatus("is-success", result.message);
         } catch (error) {
             this._setStatus("is-error", error.message || _t("Your appointment request could not be sent."));

@@ -52,6 +52,18 @@ publicWidget.registry.DentistClinicEvents = publicWidget.Widget.extend({
         col.className = "col-md-6 col-lg-4 mb-4";
         const card = document.createElement("article");
         card.className = "dental-event-card h-100";
+        if (event.image_url) {
+            card.classList.add("dental-event-card--media");
+            const media = document.createElement("div");
+            media.className = "dental-event-card__media";
+            const image = document.createElement("img");
+            image.src = event.image_url;
+            image.alt = event.name;
+            image.loading = "lazy";
+            image.decoding = "async";
+            media.appendChild(image);
+            card.appendChild(media);
+        }
 
         const date = document.createElement("p");
         date.className = "dental-event-card__date";

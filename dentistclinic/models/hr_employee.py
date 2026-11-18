@@ -26,7 +26,7 @@ class HrEmployee(models.Model):
 
     # Klinik ekibi profili
     dental_team_role = fields.Selection(DENTAL_TEAM_ROLES, string='Ekip Rolü')
-    dental_title = fields.Char(string='Ünvan', help='Örn. Dt., Uzm. Dt., Dr. Dt., Prof. Dr.')
+    dental_title = fields.Char(string='Ünvan', translate=True, help='Örn. Dt., Uzm. Dt., Dr. Dt., Prof. Dr.')
     dental_specialty = fields.Char(string='Uzmanlık Alanı', translate=True,
                                    help='Örn. Ortodonti, İmplantoloji, Pedodonti')
     dental_short_bio = fields.Text(string='Kısa Tanıtım', translate=True,
@@ -37,7 +37,13 @@ class HrEmployee(models.Model):
     dental_career_start_year = fields.Integer(string='Mesleğe Başlangıç Yılı')
     dental_experience_years = fields.Integer(
         string='Deneyim (yıl)', compute='_compute_dental_experience_years')
-    dental_languages = fields.Char(string='Konuştuğu Diller', help='Örn. Türkçe, İngilizce, Almanca')
+    dental_languages = fields.Char(
+        string='Konuştuğu Diller (eski metin)', translate=True,
+        help='Eski serbest metin alanı; yerini "Konuştuğu Diller" seçimi aldı.')
+    dental_language_ids = fields.Many2many(
+        'res.lang', 'hr_employee_dental_lang_rel', 'employee_id', 'lang_id',
+        string='Konuştuğu Diller', context={'active_test': False},
+        help='Web sitesinde bayrak ve dil adıyla gösterilir. Sitede kurulu olmayan diller de seçilebilir.')
     dental_website_image = fields.Image(
         string='Web Sitesi Portresi', max_width=1024, max_height=1024,
         help='Ekip kartları için yüz ve omuz kadrajında ayrı fotoğraf. Boş bırakılırsa personel fotoğrafı kullanılır.')
@@ -52,6 +58,14 @@ class HrEmployee(models.Model):
     dental_website_separator_after = fields.Boolean(
         string='Bu kişiden sonra ayırıcı göster',
         help='Web sitesinde bu kişinin ardından ekip gruplarını ayıran çizgi gösterir.')
+    dental_website_separator_heading = fields.Boolean(
+        string='Ayraçta başlık göster',
+        help='İşaretliyse ayraçta, sonraki grubu tanıtan başlık ve açıklama da gösterilir.')
+    dental_website_separator_title = fields.Char(
+        string='Ayraç Başlığı', translate=True, help='Örn. Klinik Ekibimiz')
+    dental_website_separator_text = fields.Text(
+        string='Ayraç Açıklaması', translate=True,
+        help='Başlığın altında görünen 1-2 cümle (isteğe bağlı).')
     dental_website_show_contact = fields.Boolean(
         string='İletişim Bilgilerini Sitede Göster',
         help='İş e-postası ve iş telefonu profil sayfasında gösterilir. '
@@ -87,6 +101,22 @@ class HrEmployee(models.Model):
         self.ensure_one()
         return {'type': 'ir.actions.act_url', 'url': self.dental_website_url, 'target': 'new'}
 
+    def _dental_website_languages(self):
+        """[{code, name, flag_url}] — dil adı kendi dilinde (Türkçe, English, Deutsch…)."""
+        self.ensure_one()
+        return [{
+            'code': lang.code,
+            'name': lang._dental_native_name(),
+            'flag_url': lang._dental_flag_url(),
+        } for lang in self.dental_language_ids.sorted(lambda l: (l.code != 'tr_TR', l.name))]
+
+    def _dental_separator_heading(self):
+        """(başlık, açıklama) — yalnızca ayraç ve başlık seçeneği açıksa dolu."""
+        self.ensure_one()
+        if not (self.dental_website_separator_after and self.dental_website_separator_heading):
+            return '', ''
+        return self.dental_website_separator_title or '', self.dental_website_separator_text or ''
+
     def _dental_website_card(self):
         """Website'e açılan (yayınlanmış) ekip üyesinin güvenli alan seti."""
         self.ensure_one()
@@ -96,15 +126,27 @@ class HrEmployee(models.Model):
             'title': self.dental_title or '',
             'team_role': self.dental_team_role or '',
             'separator_after': self.dental_website_separator_after,
+            'separator_title': self._dental_separator_heading()[0],
+            'separator_text': self._dental_separator_heading()[1],
             'is_dentist': self.is_dentist,
             'subtitle': self.dental_website_subtitle or '',
             'short_bio': self.dental_short_bio or '',
             'experience_years': self.dental_experience_years,
-            'languages': self.dental_languages or '',
+            'languages': self._dental_website_languages(),
             'image_url': '/our-team/photo/%s?v=%s' % (
                 self.id, self.write_date.strftime('%Y%m%d%H%M%S')),
             'profile_url': self.dental_website_url,
         }
+
+    def _dental_slot_is_taken(self, start, stop):
+        """True when the doctor has an active appointment overlapping [start, stop) (UTC)."""
+        self.ensure_one()
+        return bool(self.env['dental.appointment'].sudo().search_count([
+            ('doctor_id', '=', self.id),
+            ('state', 'not in', ('cancelled', 'no_show')),
+            ('start_datetime', '<', stop),
+            ('stop_datetime', '>', start),
+        ]))
 
     def _dental_get_available_slots(self, day, duration_minutes):
         """Verilen gün için boş randevu başlangıçlarını döndürür.

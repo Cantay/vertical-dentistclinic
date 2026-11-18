@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Dental procedure catalogue (service products). Prices are left at 0:
+         every clinic sets its own. noupdate: edits made by the clinic are kept. -->
+    <record id="product_category_dental" model="product.category">
+        <field name="name">Diş Tedavileri</field>
+    </record>
+    <record id="product_category_dental_diagnosis" model="product.category">
+        <field name="name">Teşhis</field>
+        <field name="parent_id" ref="product_category_dental"/>
+    </record>
+    <record id="product_category_dental_preventive" model="product.category">
+        <field name="name">Koruyucu</field>
+        <field name="parent_id" ref="product_category_dental"/>
+    </record>
+    <record id="product_category_dental_restorative" model="product.category">
+        <field name="name">Restoratif</field>
+        <field name="parent_id" ref="product_category_dental"/>
+    </record>
+    <record id="product_category_dental_endo" model="product.category">
+        <field name="name">Endodonti</field>
+        <field name="parent_id" ref="product_category_dental"/>
+    </record>
+    <record id="product_category_dental_surgery" model="product.category">
+        <field name="name">Cerrahi</field>
+        <field name="parent_id" ref="product_category_dental"/>
+    </record>
+    <record id="product_category_dental_implant" model="product.category">
+        <field name="name">İmplant</field>
+        <field name="parent_id" ref="product_category_dental"/>
+    </record>
+    <record id="product_category_dental_prosthetic" model="product.category">
+        <field name="name">Protez</field>
+        <field name="parent_id" ref="product_category_dental"/>
+    </record>
+    <record id="product_category_dental_aesthetic" model="product.category">
+        <field name="name">Estetik</field>
+        <field name="parent_id" ref="product_category_dental"/>
+    </record>
+    <record id="product_category_dental_ortho" model="product.category">
+        <field name="name">Ortodonti</field>
+        <field name="parent_id" ref="product_category_dental"/>
+    </record>
+    <record id="product_category_dental_perio" model="product.category">
+        <field name="name">Periodontoloji</field>
+        <field name="parent_id" ref="product_category_dental"/>
+    </record>
+    <record id="product_category_dental_pedo" model="product.category">
+        <field name="name">Pedodonti (Çocuk)</field>
+        <field name="parent_id" ref="product_category_dental"/>
+    </record>
+    <record id="product_dental_exam" model="product.product">
+        <field name="name">Muayene</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_diagnosis"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">all</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.33</field>
+    </record>
+    <record id="product_dental_xray_pano" model="product.product">
+        <field name="name">Panoramik Röntgen</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_diagnosis"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">all</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.17</field>
+    </record>
+    <record id="product_dental_xray_pa" model="product.product">
+        <field name="name">Periapikal Röntgen</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_diagnosis"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">all</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.08</field>
+    </record>
+    <record id="product_dental_cbct" model="product.product">
+        <field name="name">Dental Tomografi (CBCT)</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_diagnosis"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">all</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.25</field>
+    </record>
+    <record id="product_dental_scan" model="product.product">
+        <field name="name">Ağız İçi Dijital Tarama</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_diagnosis"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">all</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.33</field>
+    </record>
+    <record id="product_dental_dsd" model="product.product">
+        <field name="name">Dijital Gülüş Tasarımı</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_diagnosis"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.75</field>
+    </record>
+    <record id="product_dental_scaling" model="product.product">
+        <field name="name">Diş Taşı Temizliği (Detertraj)</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_preventive"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">all</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.50</field>
+    </record>
+    <record id="product_dental_polish" model="product.product">
+        <field name="name">Polisaj</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_preventive"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">all</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.25</field>
+    </record>
+    <record id="product_dental_sealant" model="product.product">
+        <field name="name">Fissür Örtücü</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_preventive"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">all</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.25</field>
+    </record>
+    <record id="product_dental_fluoride" model="product.product">
+        <field name="name">Flor Uygulaması</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_preventive"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">all</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.25</field>
+    </record>
+    <record id="product_dental_fill1" model="product.product">
+        <field name="name">Kompozit Dolgu – Tek Yüz</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_restorative"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.50</field>
+    </record>
+    <record id="product_dental_fill2" model="product.product">
+        <field name="name">Kompozit Dolgu – İki Yüz</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_restorative"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.67</field>
+    </record>
+    <record id="product_dental_fill3" model="product.product">
+        <field name="name">Kompozit Dolgu – Üç Yüz</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_restorative"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.83</field>
+    </record>
+    <record id="product_dental_inlay" model="product.product">
+        <field name="name">İnley / Onley</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_restorative"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_bonding" model="product.product">
+        <field name="name">Kompozit Bonding</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_restorative"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.75</field>
+    </record>
+    <record id="product_dental_rct1" model="product.product">
+        <field name="name">Kanal Tedavisi – Tek Kanal</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_endo"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_rct2" model="product.product">
+        <field name="name">Kanal Tedavisi – İki Kanal</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_endo"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.25</field>
+    </record>
+    <record id="product_dental_rct3" model="product.product">
+        <field name="name">Kanal Tedavisi – Üç Kanal</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_endo"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.50</field>
+    </record>
+    <record id="product_dental_rct_re" model="product.product">
+        <field name="name">Kanal Tedavisi Yenileme</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_endo"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.50</field>
+    </record>
+    <record id="product_dental_ext" model="product.product">
+        <field name="name">Diş Çekimi</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_surgery"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.50</field>
+    </record>
+    <record id="product_dental_ext_wisdom" model="product.product">
+        <field name="name">Gömülü 20 Yaş Dişi Çekimi</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_surgery"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_apico" model="product.product">
+        <field name="name">Apikal Rezeksiyon</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_surgery"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_cyst" model="product.product">
+        <field name="name">Kist Operasyonu</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_surgery"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_sinus" model="product.product">
+        <field name="name">Sinüs Lifting</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_surgery"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">1.50</field>
+    </record>
+    <record id="product_dental_graft" model="product.product">
+        <field name="name">Kemik Grefti</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_surgery"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.75</field>
+    </record>
+    <record id="product_dental_implant" model="product.product">
+        <field name="name">Dental İmplant</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_implant"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_abutment" model="product.product">
+        <field name="name">İmplant Üstü Abutment</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_implant"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.50</field>
+    </record>
+    <record id="product_dental_implant_crown" model="product.product">
+        <field name="name">İmplant Üstü Zirkonyum Kron</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_implant"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.75</field>
+    </record>
+    <record id="product_dental_allon4" model="product.product">
+        <field name="name">All-on-4</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_implant"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">4.00</field>
+    </record>
+    <record id="product_dental_allon6" model="product.product">
+        <field name="name">All-on-6</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_implant"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">5.00</field>
+    </record>
+    <record id="product_dental_zirconia" model="product.product">
+        <field name="name">Zirkonyum Kron</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_prosthetic"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_emax_crown" model="product.product">
+        <field name="name">E-max Kron</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_prosthetic"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_pfm" model="product.product">
+        <field name="name">Metal Destekli Porselen Kron</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_prosthetic"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_pontic" model="product.product">
+        <field name="name">Köprü Gövdesi (Pontik)</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_prosthetic"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.50</field>
+    </record>
+    <record id="product_dental_denture_full" model="product.product">
+        <field name="name">Hareketli Protez – Tam</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_prosthetic"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_denture_partial" model="product.product">
+        <field name="name">Hareketli Protez – Bölümlü</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_prosthetic"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_nightguard" model="product.product">
+        <field name="name">Gece Plağı</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_prosthetic"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.50</field>
+    </record>
+    <record id="product_dental_veneer" model="product.product">
+        <field name="name">Porselen Lamina (Veneer)</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_aesthetic"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_emax_veneer" model="product.product">
+        <field name="name">E-max Lamina</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_aesthetic"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_whitening_office" model="product.product">
+        <field name="name">Diş Beyazlatma – Ofis Tipi</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_aesthetic"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_whitening_home" model="product.product">
+        <field name="name">Diş Beyazlatma – Ev Tipi</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_aesthetic"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.33</field>
+    </record>
+    <record id="product_dental_gum_contour" model="product.product">
+        <field name="name">Pembe Estetik (Diş Eti Şekillendirme)</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_aesthetic"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.75</field>
+    </record>
+    <record id="product_dental_aligner" model="product.product">
+        <field name="name">Şeffaf Plak Tedavisi</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_ortho"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.75</field>
+    </record>
+    <record id="product_dental_braces" model="product.product">
+        <field name="name">Sabit Ortodonti (Braket)</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_ortho"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_retainer" model="product.product">
+        <field name="name">Ortodontik Pekiştirme (Retainer)</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_ortho"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.50</field>
+    </record>
+    <record id="product_dental_ortho_child" model="product.product">
+        <field name="name">Hareketli Ortodontik Aparey (Çocuk)</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_ortho"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">primary</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.75</field>
+    </record>
+    <record id="product_dental_curettage" model="product.product">
+        <field name="name">Kürtaj (Derin Temizlik) – Çeyrek Çene</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_perio"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="False"/>
+        <field name="dental_duration">0.75</field>
+    </record>
+    <record id="product_dental_gingivectomy" model="product.product">
+        <field name="name">Gingivektomi</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_perio"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.75</field>
+    </record>
+    <record id="product_dental_gum_graft" model="product.product">
+        <field name="name">Diş Eti Grefti</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_perio"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">permanent</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">1.00</field>
+    </record>
+    <record id="product_dental_p_fill" model="product.product">
+        <field name="name">Süt Dişi Dolgusu</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_pedo"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">primary</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.42</field>
+    </record>
+    <record id="product_dental_p_pulpotomy" model="product.product">
+        <field name="name">Süt Dişi Amputasyonu (Pulpotomi)</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_pedo"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">primary</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.67</field>
+    </record>
+    <record id="product_dental_p_pulpectomy" model="product.product">
+        <field name="name">Süt Dişi Kanal Tedavisi (Pulpektomi)</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_pedo"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">primary</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.75</field>
+    </record>
+    <record id="product_dental_p_ext" model="product.product">
+        <field name="name">Süt Dişi Çekimi</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_pedo"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">primary</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.33</field>
+    </record>
+    <record id="product_dental_p_ssc" model="product.product">
+        <field name="name">Paslanmaz Çelik Kron</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_pedo"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">primary</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.67</field>
+    </record>
+    <record id="product_dental_p_strip" model="product.product">
+        <field name="name">Strip Kron</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_pedo"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">primary</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.67</field>
+    </record>
+    <record id="product_dental_p_space" model="product.product">
+        <field name="name">Yer Tutucu</field>
+        <field name="type">service</field>
+        <field name="categ_id" ref="product_category_dental_pedo"/>
+        <field name="list_price">0</field>
+        <field name="sale_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="dental_is_procedure" eval="True"/>
+        <field name="dental_dentition">primary</field>
+        <field name="dental_per_tooth" eval="True"/>
+        <field name="dental_duration">0.67</field>
+    </record>
+</odoo>

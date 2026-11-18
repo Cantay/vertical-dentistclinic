@@ -39,6 +39,7 @@
                     <button name="action_create_consent" type="object"
                             string="Onam Formu Oluştur"
                             invisible="not consent_feature_enabled"/>
+                    <button name="%(action_report_dental_quote)d" type="action" string="Teklif PDF" icon="fa-file-pdf-o"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="quote,draft,confirmed,in_progress,done"/>
                 </header>
@@ -57,21 +58,47 @@
                             <field name="company_id" groups="base.group_multi_company"/>
                             <field name="sale_order_id" readonly="1"/>
                             <field name="crm_lead_id"/>
+                            <label for="currency_id"/>
+                            <div class="o_row">
+                                <field name="currency_id" options="{'no_create': True, 'no_open': True}"/>
+                                <button name="action_reprice" type="object" string="Fiyatları güncelle"
+                                        class="btn-link p-0" icon="fa-refresh" invisible="not line_ids"
+                                        help="Satır fiyatlarını seçili para birimindeki tedavi fiyatlarıyla yeniden doldurur."/>
+                            </div>
+                            <field name="quote_valid_until"/>
                             <field name="commission_rate"
                                    invisible="not patient_id or not patient_id.referring_agency_id"/>
                         </group>
                     </group>
                     <notebook>
                         <page name="lines" string="Tedavi Satırları">
+                            <field name="dentition" invisible="1"/>
                             <field name="line_ids" widget="dental_odontogram">
                                 <list editable="bottom">
-                                    <field name="tooth_number"/>
-                                    <field name="procedure_id"/>
-                                    <field name="doctor_id"/>
-                                    <field name="appointment_id"/>
+                                    <field name="tooth_number" width="70px"/>
+                                    <field name="tooth_dentition" widget="badge" optional="show"
+                                           decoration-info="tooth_dentition == 'primary'"
+                                           decoration-muted="tooth_dentition == 'permanent'"/>
+                                    <field name="procedure_id" options="{'no_create': True}"
+                                           domain="[('dental_is_procedure', '=', True), ('dental_dentition', 'in', ['all', tooth_dentition])] if tooth_dentition else [('dental_is_procedure', '=', True)]"/>
+                                    <field name="doctor_id" placeholder="Plan hekimi"/>
+                                    <field name="planned_start" placeholder="Seans tarihi seçin"/>
+                                    <field name="duration" widget="float_time" width="70px"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="price_unit" width="100px"/>
+                                    <field name="discount" width="70px" optional="show"/>
+                                    <field name="price_subtotal" width="100px"/>
+                                    <field name="appointment_id" optional="show"/>
+                                    <field name="appointment_state" widget="badge" optional="hide"/>
                                     <field name="state"/>
                                 </list>
                             </field>
+                            <group class="oe_subtotal_footer" colspan="2" name="dental_totals">
+                                <field name="amount_subtotal"/>
+                                <field name="global_discount"/>
+                                <field name="amount_discount" invisible="not global_discount"/>
+                                <field name="amount_total" class="oe_subtotal_footer_separator"/>
+                            </group>
                         </page>
                         <page name="recall" string="Kontrol (Recall)">
                             <group>

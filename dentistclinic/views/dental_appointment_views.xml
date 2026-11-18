@@ -57,6 +57,15 @@
                     </group>
                     <group string="Notlar">
                         <field name="notes" nolabel="1"/>
+                        <field name="treatment_line_ids" nolabel="1" readonly="1" invisible="not treatment_line_ids">
+                            <list>
+                                <field name="tooth_number"/>
+                                <field name="tooth_dentition" widget="badge"/>
+                                <field name="procedure_id"/>
+                                <field name="duration" widget="float_time"/>
+                                <field name="state"/>
+                            </list>
+                        </field>
                     </group>
                 </sheet>
                 <chatter/>

@@ -96,6 +96,13 @@
               action="action_dental_commission"
               sequence="30"/>
 
+    <menuitem id="menu_dentistclinic_procedures"
+              name="Tedavi Listesi"
+              parent="menu_dentistclinic_root"
+              action="action_dental_procedures"
+              sequence="85"
+              groups="group_dentistclinic_manager"/>
+
     <menuitem id="menu_dentistclinic_config"
               name="Ayarlar"
               parent="menu_dentistclinic_root"

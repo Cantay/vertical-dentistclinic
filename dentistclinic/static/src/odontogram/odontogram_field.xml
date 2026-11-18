@@ -1,41 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
+
+    <!-- One tooth: buccal view (crown + roots) and occlusal view, FDI number.
+         Upper teeth: roots up, occlusal view and number below; lower: mirrored. -->
+    <t t-name="dentistclinic.OdontogramTooth">
+        <t t-set="info" t-value="tooth(number)"/>
+        <button type="button" t-att-class="getToothClass(number)" t-att-title="info.label"
+                t-att-aria-label="info.label" t-att-aria-pressed="state.selectedTooth === number ? 'true' : 'false'"
+                t-att-style="'--tooth-ratio:' + info.ratio"
+                t-on-click="() => this.onToothClick(number)">
+            <t t-if="!info.upper">
+                <span class="dental-tooth-num" t-esc="number"/>
+                <t t-call="dentistclinic.OdontogramOcclusal"/>
+            </t>
+            <svg class="dental-tooth-svg" t-att-viewBox="info.viewBox" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <g class="dental-tooth-body" filter="url(#dental-tooth-shadow)" t-att-transform="info.upper ? '' : 'matrix(1 0 0 -1 0 120)'">
+                    <path class="dental-tooth-root" fill="url(#dental-root-grad)" t-att-d="info.shape.root"/>
+                    <path class="dental-tooth-crown" t-att-fill="info.primary ? 'url(#dental-enamel-primary-grad)' : 'url(#dental-enamel-grad)'" t-att-d="info.shape.crown"/>
+                    <path t-if="info.shape.incisal" class="dental-tooth-incisal" fill="url(#dental-incisal-grad)" t-att-d="info.shape.incisal"/>
+                    <path class="dental-tooth-tint" t-att-d="info.shape.crown"/>
+                    <path class="dental-tooth-ridges" t-att-d="info.shape.ridges"/>
+                    <path class="dental-tooth-cej" t-att-d="'M' + (info.shape.vb[0] + 3) + ' 70 Q' + (info.shape.vb[0] + info.shape.vb[1] / 2) + ' 75 ' + (info.shape.vb[0] + info.shape.vb[1] - 3) + ' 70'"/>
+                </g>
+            </svg>
+            <t t-if="info.upper">
+                <t t-call="dentistclinic.OdontogramOcclusal"/>
+                <span class="dental-tooth-num" t-esc="number"/>
+            </t>
+        </button>
+    </t>
+
+    <t t-name="dentistclinic.OdontogramOcclusal">
+        <svg class="dental-tooth-occ" viewBox="0 0 60 60" aria-hidden="true">
+            <g class="dental-tooth-body" filter="url(#dental-tooth-shadow)">
+                <path class="dental-occ-surface" fill="url(#dental-occ-grad)" t-att-d="info.shape.occ"/>
+                <path class="dental-tooth-tint" t-att-d="info.shape.occ"/>
+                <path class="dental-occ-fissure" t-att-d="info.shape.occl"/>
+            </g>
+        </svg>
+    </t>
+
     <t t-name="dentistclinic.OdontogramField">
         <div class="o_dental_odontogram">
-            <div class="dental-arch dental-arch-upper d-flex justify-content-center mb-1">
-                <t t-foreach="quadrants.upperRight" t-as="tooth" t-key="tooth">
-                    <div t-att-class="getToothClass(tooth)" t-on-click="() => this.onToothClick(tooth)">
-                        <span t-esc="tooth"/>
-                    </div>
-                </t>
-                <div class="dental-arch-divider"/>
-                <t t-foreach="quadrants.upperLeft" t-as="tooth" t-key="tooth">
-                    <div t-att-class="getToothClass(tooth)" t-on-click="() => this.onToothClick(tooth)">
-                        <span t-esc="tooth"/>
-                    </div>
-                </t>
+            <div class="dental-toolbar d-flex flex-wrap align-items-center gap-2 mb-2">
+                <div t-if="canEditDentition" class="btn-group btn-group-sm" role="group" aria-label="Dişlenme">
+                    <t t-foreach="dentitionOptions" t-as="option" t-key="option[0]">
+                        <button type="button" t-att-class="'btn ' + (dentition === option[0] ? 'btn-primary' : 'btn-outline-secondary')"
+                                t-att-aria-pressed="dentition === option[0] ? 'true' : 'false'"
+                                t-on-click="() => this.onDentitionChange(option[0])" t-esc="option[1]"/>
+                    </t>
+                </div>
+                <div class="dental-legend d-flex flex-wrap gap-3 ms-auto small text-muted">
+                    <span><i class="dental-legend-dot dental-legend-planned"/> Planlandı</span>
+                    <span><i class="dental-legend-dot dental-legend-done"/> Uygulandı</span>
+                    <span><i class="dental-legend-dot dental-legend-invoiced"/> Faturalandı</span>
+                </div>
             </div>
-            <div class="dental-arch dental-arch-lower d-flex justify-content-center mb-2">
-                <t t-foreach="quadrants.lowerRight" t-as="tooth" t-key="tooth">
-                    <div t-att-class="getToothClass(tooth)" t-on-click="() => this.onToothClick(tooth)">
-                        <span t-esc="tooth"/>
-                    </div>
-                </t>
-                <div class="dental-arch-divider"/>
-                <t t-foreach="quadrants.lowerLeft" t-as="tooth" t-key="tooth">
-                    <div t-att-class="getToothClass(tooth)" t-on-click="() => this.onToothClick(tooth)">
-                        <span t-esc="tooth"/>
+
+            <!-- Shared shading for every tooth (referenced from the stylesheet). -->
+            <svg class="dental-defs" width="0" height="0" aria-hidden="true" focusable="false">
+                <defs>
+                    <radialGradient id="dental-enamel-grad" cx="38%" cy="30%" r="80%">
+                        <stop offset="0" stop-color="#ffffff"/>
+                        <stop offset="0.45" stop-color="#f6f1e6"/>
+                        <stop offset="0.85" stop-color="#e2d7c1"/>
+                        <stop offset="1" stop-color="#cfc2a6"/>
+                    </radialGradient>
+                    <radialGradient id="dental-enamel-primary-grad" cx="38%" cy="30%" r="80%">
+                        <stop offset="0" stop-color="#ffffff"/>
+                        <stop offset="0.5" stop-color="#f3f4f2"/>
+                        <stop offset="1" stop-color="#d7d6cd"/>
+                    </radialGradient>
+                    <linearGradient id="dental-root-grad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0" stop-color="#e9dcbd"/>
+                        <stop offset="0.45" stop-color="#f3e8cf"/>
+                        <stop offset="1" stop-color="#cdb98f"/>
+                    </linearGradient>
+                    <linearGradient id="dental-incisal-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#dfe7ec" stop-opacity="0"/>
+                        <stop offset="1" stop-color="#c9d6df" stop-opacity="0.75"/>
+                    </linearGradient>
+                    <radialGradient id="dental-occ-grad" cx="40%" cy="35%" r="75%">
+                        <stop offset="0" stop-color="#ffffff"/>
+                        <stop offset="0.6" stop-color="#f1ebdf"/>
+                        <stop offset="1" stop-color="#d6cab2"/>
+                    </radialGradient>
+                    <filter id="dental-tooth-shadow" x="-20%" y="-10%" width="140%" height="130%">
+                        <feDropShadow dx="0" dy="1" stdDeviation="1.1" flood-color="#5a4a2a" flood-opacity="0.22"/>
+                    </filter>
+                </defs>
+            </svg>
+            <div class="dental-chart">
+                <t t-foreach="sets" t-as="set" t-key="set.key">
+                    <div t-att-class="'dental-set dental-set-' + set.key">
+                        <div t-if="sets.length > 1" class="dental-set-title" t-esc="set.title"/>
+                        <div class="dental-side-labels"><span>Sağ</span><span>Sol</span></div>
+                        <div class="dental-arch dental-arch-upper">
+                            <t t-foreach="set.arches.upper[0]" t-as="number" t-key="number">
+                                <t t-call="dentistclinic.OdontogramTooth"/>
+                            </t>
+                            <div class="dental-arch-divider"/>
+                            <t t-foreach="set.arches.upper[1]" t-as="number" t-key="number">
+                                <t t-call="dentistclinic.OdontogramTooth"/>
+                            </t>
+                        </div>
+                        <div class="dental-occlusal-line"/>
+                        <div class="dental-arch dental-arch-lower">
+                            <t t-foreach="set.arches.lower[0]" t-as="number" t-key="number">
+                                <t t-call="dentistclinic.OdontogramTooth"/>
+                            </t>
+                            <div class="dental-arch-divider"/>
+                            <t t-foreach="set.arches.lower[1]" t-as="number" t-key="number">
+                                <t t-call="dentistclinic.OdontogramTooth"/>
+                            </t>
+                        </div>
                     </div>
                 </t>
             </div>
 
-            <div class="d-flex align-items-center gap-2 mb-3">
-                <span t-if="state.selectedTooth">
-                    Seçili diş: <strong t-esc="state.selectedTooth"/>
-                </span>
-                <span t-else="">Bir diş seçin</span>
+            <div t-if="hiddenTeeth.length" class="alert alert-warning py-1 px-2 small mt-2 mb-0">
+                Bu görünümde gösterilmeyen dişlerde tedavi satırı var:
+                <strong t-esc="hiddenTeeth.join(', ')"/>. Tümünü görmek için "Karma" seçin.
+            </div>
+
+            <div class="d-flex flex-wrap align-items-center gap-2 my-3">
+                <span t-if="state.selectedTooth">Seçili diş: <strong t-esc="selectedLabel"/></span>
+                <span t-else="" class="text-muted">Tedavi eklemek için şemadan bir diş seçin</span>
                 <button class="btn btn-sm btn-primary" t-on-click="addLineForSelectedTooth"
-                        t-att-disabled="!state.selectedTooth">
+                        t-att-disabled="!state.selectedTooth or props.readonly">
                     Bu Dişe Tedavi Satırı Ekle
                 </button>
             </div>

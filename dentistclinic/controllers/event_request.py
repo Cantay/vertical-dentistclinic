@@ -1,3 +1,5 @@
+from werkzeug.exceptions import NotFound
+
 from odoo import http
 from odoo.http import request
 from odoo.osv.expression import OR as Domain_OR
@@ -35,6 +37,16 @@ class DentistClinicEventRequest(http.Controller):
             'success': True,
             'events': [event._website_card() for event in self._open_events(company)],
         })
+
+    @http.route('/dentistclinic/events/image/<int:event_id>', type='http', auth='public',
+                methods=['GET'], website=True, sitemap=False)
+    def event_image(self, event_id, **kwargs):
+        # Only events currently listed on the website expose their image.
+        event = self._open_events(request.website.company_id).filtered(lambda e: e.id == event_id)
+        if not event or not event.image:
+            raise NotFound()
+        stream = request.env['ir.binary']._get_image_stream_from(event, 'image')
+        return stream.get_response(max_age=86400)
 
     @http.route('/dentistclinic/event-request/submit', type='http', auth='public',
                 methods=['POST'], website=True, csrf=True, sitemap=False)
