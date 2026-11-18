@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_template_form_view_dental" model="ir.ui.view">
+        <field name="name">product.template.form.dental</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="dental" string="Diş Tedavisi">
+                    <group>
+                        <group>
+                            <field name="dental_is_procedure"/>
+                            <field name="dental_dentition" invisible="not dental_is_procedure"/>
+                        </group>
+                        <group>
+                            <field name="dental_per_tooth" invisible="not dental_is_procedure"/>
+                            <field name="dental_duration" widget="float_time" invisible="not dental_is_procedure"/>
+                        </group>
+                        <group string="Turist Fiyatları" invisible="not dental_is_procedure">
+                            <field name="dental_price_eur"/>
+                            <field name="dental_price_gbp"/>
+                            <field name="dental_price_usd"/>
+                            <div class="text-muted small" colspan="2">
+                                Boş bırakılan para biriminde fiyat, satış fiyatının (TRY) güncel kurla çevrilmesiyle hesaplanır.
+                            </div>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_template_search_view_dental" model="ir.ui.view">
+        <field name="name">product.template.search.dental</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='services']" position="after">
+                <filter string="Diş Tedavileri" name="dental_procedures" domain="[('dental_is_procedure', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="dental_procedure_list" model="ir.ui.view">
+        <field name="name">product.template.list.dental.procedure</field>
+        <field name="model">product.template</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <list string="Tedavi Listesi" editable="bottom" multi_edit="1">
+                <field name="name"/>
+                <field name="categ_id" optional="show"/>
+                <field name="dental_dentition"/>
+                <field name="dental_per_tooth" optional="show"/>
+                <field name="dental_duration" widget="float_time" optional="show"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="list_price" string="Fiyat (TRY)" widget="monetary"/>
+                <field name="dental_price_eur"/>
+                <field name="dental_price_gbp"/>
+                <field name="dental_price_usd"/>
+                <field name="sale_ok" optional="hide"/>
+                <field name="dental_is_procedure" column_invisible="1"/>
+                <field name="type" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_dental_procedures" model="ir.actions.act_window">
+        <field name="name">Tedavi Listesi</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('dental_is_procedure', '=', True)]</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'list', 'view_id': ref('dental_procedure_list')}),
+            (0, 0, {'view_mode': 'form'})]"/>
+        <field name="context">{'default_dental_is_procedure': True, 'default_type': 'service', 'group_by': 'categ_id'}</field>
+    </record>
+</odoo>

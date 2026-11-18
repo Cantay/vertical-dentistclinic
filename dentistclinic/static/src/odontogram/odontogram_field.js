@@ -5,11 +5,11 @@ import { Component, useState } from "@odoo/owl";
 import { X2ManyField, x2ManyField } from "@web/views/fields/x2many/x2many_field";
 
 // FDI numbering, drawn from the patient's right (left of the screen) to left.
-const PERMANENT = {
+export const PERMANENT = {
     upper: [[18, 17, 16, 15, 14, 13, 12, 11], [21, 22, 23, 24, 25, 26, 27, 28]],
     lower: [[48, 47, 46, 45, 44, 43, 42, 41], [31, 32, 33, 34, 35, 36, 37, 38]],
 };
-const PRIMARY = {
+export const PRIMARY = {
     upper: [[55, 54, 53, 52, 51], [61, 62, 63, 64, 65]],
     lower: [[85, 84, 83, 82, 81], [71, 72, 73, 74, 75]],
 };
@@ -19,7 +19,7 @@ const PRIMARY = {
 // the occlusal (biting surface) outline and fissures in a 60 x 60 box. vb = the
 // horizontal viewBox crop so each tooth keeps its real width. Lower teeth reuse
 // the drawing mirrored vertically. Upper molars have three roots, lower two.
-const SHAPES = {
+export const SHAPES = {
     u_central: { vb: [11.0, 38.0], crown: "M 18.0 70.0 C 15.0 80.0 12.5 95.0 13.0 106.0 C 13.5 113.0 18.0 116.5 30.0 116.5 C 42.0 116.5 46.5 113.0 47.0 106.0 C 47.5 95.0 45.0 80.0 42.0 70.0 C 36.0 66.5 24.0 66.5 18.0 70.0 Z", root: "M 19.0 71.0 C 18.0 50.0 21.5 24.0 27.5 10.0 C 28.6 7.4 31.4 7.4 32.5 10.0 C 38.5 24.0 42.0 50.0 41.0 71.0 Z", ridges: "M 24.0 76.0 C 22.5 88.0 22.0 100.0 23.0 110.0 M 36.0 76.0 C 37.5 88.0 38.0 100.0 37.0 110.0", occ: "M8 31 C8 22 19 18.5 30 18.5 C41 18.5 52 22 52 31 C52 38.5 42 41.5 30 41.5 C18 41.5 8 38.5 8 31 Z", occl: "M12 30 C22 26.5 38 26.5 48 30", incisal: "M 14.5 104.0 C 15.0 112.0 19.0 115.5 30.0 115.5 C 41.0 115.5 45.0 112.0 45.5 104.0 C 40.0 107.5 20.0 107.5 14.5 104.0 Z" },
     u_lateral: { vb: [14.5, 31.0], crown: "M 20.4 70.0 C 18.0 79.0 16.0 92.5 16.4 102.4 C 16.8 108.7 20.4 111.8 30.0 111.8 C 39.6 111.8 43.2 108.7 43.6 102.4 C 44.0 92.5 42.0 79.0 39.6 70.0 C 34.8 66.8 25.2 66.8 20.4 70.0 Z", root: "M 21.2 70.9 C 20.4 51.6 23.2 27.7 28.0 14.8 C 28.9 12.4 31.1 12.4 32.0 14.8 C 36.8 27.7 39.6 51.6 38.8 70.9 Z", ridges: "M 25.2 75.4 C 24.0 86.2 23.6 97.0 24.4 106.0 M 34.8 75.4 C 36.0 86.2 36.4 97.0 35.6 106.0", occ: "M 12.4 31.0 C 12.4 22.0 21.2 18.5 30.0 18.5 C 38.8 18.5 47.6 22.0 47.6 31.0 C 47.6 38.5 39.6 41.5 30.0 41.5 C 20.4 41.5 12.4 38.5 12.4 31.0 Z", occl: "M 15.6 30.0 C 23.6 26.5 36.4 26.5 44.4 30.0", incisal: "M 17.6 100.6 C 18.0 107.8 21.2 111.0 30.0 111.0 C 38.8 111.0 42.0 107.8 42.4 100.6 C 38.0 103.8 22.0 103.8 17.6 100.6 Z" },
     canine: { vb: [10.5, 39.0], crown: "M 17.5 70.0 C 14.0 81.0 12.0 95.0 14.5 103.5 C 17.0 109.5 24.0 113.5 30.0 118.5 C 36.0 113.5 43.0 109.5 45.5 103.5 C 48.0 95.0 46.0 81.0 42.5 70.0 C 36.5 66.5 23.5 66.5 17.5 70.0 Z", root: "M 19.5 71.0 C 18.0 46.0 23.0 14.0 28.8 2.5 C 29.6 0.8 30.4 0.8 31.2 2.5 C 37.0 14.0 42.0 46.0 40.5 71.0 Z", ridges: "M 30.0 76.0 C 29.5 90.0 29.5 102.0 30.0 114.0", occ: "M10 31 C12 21 21 15.5 30 15.5 C39 15.5 48 21 50 31 C48 40.5 39 45 30 45 C21 45 12 40.5 10 31 Z", occl: "M30 18 C28.5 26 28.5 36 30 43 M14 31 C22 29 38 29 46 31", incisal: "M 16.0 102.0 C 19.0 109.0 25.0 113.0 30.0 117.0 C 35.0 113.0 41.0 109.0 44.0 102.0 C 38.0 106.0 22.0 106.0 16.0 102.0 Z" },
@@ -53,7 +53,7 @@ const UPPER_KIND = { 1: "u_central", 2: "u_lateral", 3: "canine", 4: "premolar",
 const LOWER_KIND = { 1: "l_incisor", 2: "l_incisor", 3: "l_canine", 4: "premolar2", 5: "premolar2", 6: "l_molar", 7: "l_molar2", 8: "wisdom" };
 const PRIMARY_KIND = { 1: "p_incisor", 2: "p_lateral", 3: "p_canine", 4: "p_molar", 5: "p_molar" };
 
-function toothInfo(number) {
+export function toothInfo(number) {
     const quadrant = Math.floor(number / 10);
     const unit = number % 10;
     const primary = quadrant >= 5;
@@ -72,7 +72,7 @@ function toothInfo(number) {
         shape,
         viewBox: `${shape.vb[0]} 0 ${shape.vb[1]} 120`,
         ratio: (shape.vb[1] / 120).toFixed(4),
-        label: `${number} · ${upper ? "Üst" : "Alt"} ${POSITION[side].toLowerCase()} ${name}`,
+        label: `${number} · ${upper ? "Üst" : "Alt"} ${POSITION[side].toLowerCase()} ${name} · ${primary ? "süt dişi" : "daimi diş"}`,
     };
 }
 

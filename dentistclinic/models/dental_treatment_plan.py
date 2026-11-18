@@ -1,6 +1,7 @@
 from dateutil.relativedelta import relativedelta
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class DentalTreatmentPlan(models.Model):
@@ -12,6 +13,18 @@ class DentalTreatmentPlan(models.Model):
     name = fields.Char(string='Plan Kodu', required=True, copy=False,
                         default=lambda self: self.env['ir.sequence'].next_by_code('dental.treatment.plan'))
     patient_id = fields.Many2one('res.partner', string='Hasta', required=True)
+    currency_id = fields.Many2one(
+        'res.currency', string='Para Birimi', required=True,
+        default=lambda self: self.env.company.currency_id,
+        domain=[('active', '=', True)])
+    global_discount = fields.Float(string='Genel İndirim (%)', digits='Discount')
+    amount_subtotal = fields.Monetary(
+        string='Ara Toplam', compute='_compute_amounts', store=True, currency_field='currency_id')
+    amount_discount = fields.Monetary(
+        string='Genel İndirim', compute='_compute_amounts', store=True, currency_field='currency_id')
+    amount_total = fields.Monetary(
+        string='Toplam', compute='_compute_amounts', store=True, currency_field='currency_id')
+    quote_valid_until = fields.Date(string='Teklif Geçerlilik Tarihi')
     dentition = fields.Selection([
         ('permanent', 'Daimi Dişler (Yetişkin)'),
         ('primary', 'Süt Dişleri (Çocuk)'),
@@ -82,6 +95,43 @@ class DentalTreatmentPlan(models.Model):
                 plan.recall_date = plan.done_date + relativedelta(months=plan.recall_months)
             else:
                 plan.recall_date = False
+
+    @api.depends('line_ids.price_subtotal', 'global_discount')
+    def _compute_amounts(self):
+        for plan in self:
+            subtotal = sum(plan.line_ids.mapped('price_subtotal'))
+            discount = plan.currency_id.round(subtotal * (plan.global_discount or 0.0) / 100.0) if plan.currency_id else 0.0
+            plan.amount_subtotal = subtotal
+            plan.amount_discount = discount
+            plan.amount_total = subtotal - discount
+
+    @api.constrains('global_discount')
+    def _check_global_discount(self):
+        self._dental_check_discount_limit()
+
+    def _dental_check_discount_limit(self):
+        """Users may discount up to the company limit; managers have no limit."""
+        if self.env.user.has_group('dentistclinic.group_dentistclinic_manager') or self.env.su:
+            return
+        for plan in self:
+            limit = plan.company_id.dentistclinic_max_discount
+            discounts = [plan.global_discount] + plan.line_ids.mapped('discount')
+            if any((d or 0.0) > limit + 1e-6 for d in discounts):
+                raise ValidationError(_(
+                    'En fazla %%%(limit)s indirim yapabilirsiniz. Daha yüksek indirim için '
+                    'klinik yöneticisinin onayı gerekir.', limit=f'{limit:g}'))
+
+    def action_reprice(self):
+        """Re-read the procedure prices in the plan currency (after a currency change)."""
+        for plan in self:
+            for line in plan.line_ids.filtered('procedure_id'):
+                line.price_unit = line.procedure_id.product_tmpl_id._dental_price(plan.currency_id)[0]
+
+    def write(self, vals):
+        res = super().write(vals)
+        if {'doctor_id', 'patient_id'} & set(vals):
+            self.line_ids.filtered('planned_start')._sync_treatment_appointments()
+        return res
 
     def action_confirm(self):
         self.write({'state': 'confirmed'})
@@ -156,6 +206,20 @@ class DentalTreatmentPlan(models.Model):
             'target': 'current',
         }
 
+    def _dental_pricelist(self):
+        """A pricelist in the plan currency (created on first use)."""
+        self.ensure_one()
+        Pricelist = self.env['product.pricelist'].sudo()
+        pricelist = Pricelist.search([
+            ('currency_id', '=', self.currency_id.id),
+            ('company_id', 'in', (self.company_id.id, False)),
+        ], limit=1)
+        return pricelist or Pricelist.create({
+            'name': _('Diş Tedavileri (%s)', self.currency_id.name),
+            'currency_id': self.currency_id.id,
+            'company_id': self.company_id.id,
+        })
+
     def action_create_sale_order(self):
         self.ensure_one()
         if self.sale_order_id:
@@ -164,12 +228,20 @@ class DentalTreatmentPlan(models.Model):
         order = self.env['sale.order'].create({
             'partner_id': self.patient_id.id,
             'company_id': self.company_id.id,
+            'pricelist_id': self._dental_pricelist().id,
+            'validity_date': self.quote_valid_until,
         })
         for line in treatment_lines:
+            # Line and plan discounts combined into one sale line discount.
+            discount = 100.0 * (1 - (1 - (line.discount or 0.0) / 100.0) * (1 - (self.global_discount or 0.0) / 100.0))
             order_line = self.env['sale.order.line'].create({
                 'order_id': order.id,
                 'product_id': line.procedure_id.id,
+                'name': ('%s · %s' % (line.tooth_number, line.procedure_id.display_name))
+                        if line.tooth_number else line.procedure_id.display_name,
                 'product_uom_qty': 1,
+                'price_unit': line.price_unit,
+                'discount': discount,
                 'dental_treatment_line_id': line.id,
             })
             line.sale_order_line_id = order_line

@@ -20,6 +20,12 @@ class ResConfigSettings(models.TransientModel):
     dentistclinic_consent_enabled = fields.Boolean(
         related='company_id.dentistclinic_consent_enabled', readonly=False,
         string='Dijital Onam Formu')
+    dentistclinic_max_discount = fields.Float(
+        related='company_id.dentistclinic_max_discount', readonly=False,
+        string='Maks. İndirim (%)')
+    dentistclinic_quote_validity_days = fields.Integer(
+        related='company_id.dentistclinic_quote_validity_days', readonly=False,
+        string='Teklif Geçerlilik Süresi (gün)')
     dentistclinic_slot_duration = fields.Integer(
         related='company_id.dentistclinic_slot_duration', readonly=False,
         string='Online Randevu Süresi (dk)')

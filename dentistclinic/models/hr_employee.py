@@ -138,6 +138,16 @@ class HrEmployee(models.Model):
             'profile_url': self.dental_website_url,
         }
 
+    def _dental_slot_is_taken(self, start, stop):
+        """True when the doctor has an active appointment overlapping [start, stop) (UTC)."""
+        self.ensure_one()
+        return bool(self.env['dental.appointment'].sudo().search_count([
+            ('doctor_id', '=', self.id),
+            ('state', 'not in', ('cancelled', 'no_show')),
+            ('start_datetime', '<', stop),
+            ('stop_datetime', '>', start),
+        ]))
+
     def _dental_get_available_slots(self, day, duration_minutes):
         """Verilen gün için boş randevu başlangıçlarını döndürür.
 

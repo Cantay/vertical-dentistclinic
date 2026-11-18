@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Quote currencies for health-tourism patients. -->
+    <function model="res.currency" name="write">
+        <value eval="[ref('base.EUR'), ref('base.GBP'), ref('base.USD')]"/>
+        <value eval="{'active': True}"/>
+    </function>
+</odoo>

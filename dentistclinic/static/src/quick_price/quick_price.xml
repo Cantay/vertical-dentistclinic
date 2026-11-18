@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="dentistclinic.QuickPriceSystray">
+        <div t-if="state.allowed" class="o_qp_systray">
+            <button type="button" class="o_qp_systray__btn btn btn-link px-2" title="Hızlı Fiyat" aria-label="Hızlı Fiyat" t-on-click="open">
+                <i class="fa fa-calculator fa-lg"/>
+            </button>
+        </div>
+    </t>
+
+    <!-- Small tooth for the quote chart (buccal view only). -->
+    <t t-name="dentistclinic.QuickPriceTooth">
+        <t t-set="info" t-value="tooth(number)"/>
+        <button type="button" t-att-class="toothClass(number)" t-att-title="info.label" t-att-aria-label="info.label"
+                t-att-aria-pressed="state.selected.includes(number) ? 'true' : 'false'"
+                t-att-style="'--tooth-ratio:' + info.ratio" t-on-click="() => this.toggleTooth(number)">
+            <span t-if="!info.upper" class="o_qp_tooth__num" t-esc="number"/>
+            <svg t-att-viewBox="info.viewBox" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                <g t-att-transform="info.upper ? '' : 'matrix(1 0 0 -1 0 120)'">
+                    <path class="o_qp_root" fill="url(#qp-root-grad)" t-att-d="info.shape.root"/>
+                    <path class="o_qp_crown" fill="url(#qp-enamel-grad)" t-att-d="info.shape.crown"/>
+                    <path class="o_qp_tint" t-att-d="info.shape.crown"/>
+                </g>
+            </svg>
+            <span t-if="info.upper" class="o_qp_tooth__num" t-esc="number"/>
+        </button>
+    </t>
+
+    <t t-name="dentistclinic.QuickPrice">
+        <div class="o_qp o_action h-100">
+            <svg width="0" height="0" class="position-absolute" aria-hidden="true" focusable="false">
+                <defs>
+                    <radialGradient id="qp-enamel-grad" cx="38%" cy="30%" r="80%">
+                        <stop offset="0" stop-color="#ffffff"/>
+                        <stop offset="0.5" stop-color="#f4efe4"/>
+                        <stop offset="1" stop-color="#d8ccb3"/>
+                    </radialGradient>
+                    <linearGradient id="qp-root-grad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0" stop-color="#ece0c4"/>
+                        <stop offset="1" stop-color="#d2bf97"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+
+            <div t-if="state.loading" class="o_qp__loading"><i class="fa fa-spinner fa-spin me-2"/>Yükleniyor…</div>
+            <t t-else="">
+                <!-- Top bar: patient + currency -->
+                <header class="o_qp__bar">
+                    <div class="o_qp__title"><i class="fa fa-calculator me-2"/>Hızlı Fiyat</div>
+
+                    <div class="o_qp__patient">
+                        <t t-if="state.patient">
+                            <div class="o_qp__patient-chip">
+                                <i class="fa fa-user-circle-o"/>
+                                <div>
+                                    <strong t-esc="state.patient.name"/>
+                                    <small t-if="state.patient.phone" class="d-block text-muted" t-esc="state.patient.phone"/>
+                                </div>
+                                <span t-if="state.patient.international" class="badge text-bg-info ms-1">Yurt dışı</span>
+                                <button t-if="!state.plan" type="button" class="btn btn-link btn-sm text-muted" t-on-click="clearPatient" title="Hastayı değiştir">
+                                    <i class="fa fa-times"/>
+                                </button>
+                            </div>
+                        </t>
+                        <t t-elif="state.newPatient">
+                            <div class="o_qp__newpatient">
+                                <input class="form-control form-control-sm" placeholder="Ad soyad" t-model="state.newPatient.name" autofocus="autofocus"/>
+                                <input class="form-control form-control-sm" placeholder="+90 5XX XXX XX XX" t-model="state.newPatient.phone" inputmode="tel"/>
+                                <button type="button" class="btn btn-sm btn-primary" t-on-click="saveNewPatient">Ekle</button>
+                                <button type="button" class="btn btn-sm btn-link" t-on-click="() => this.state.newPatient = null">Vazgeç</button>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="o_qp__patient-search">
+                                <i class="fa fa-search"/>
+                                <input class="form-control form-control-sm" placeholder="Hasta ara: ad, telefon…"
+                                       t-att-value="state.patientQuery" t-on-input="onPatientInput"/>
+                                <button type="button" class="btn btn-sm btn-outline-primary text-nowrap" t-on-click="startNewPatient">
+                                    <i class="fa fa-user-plus me-1"/>Yeni hasta
+                                </button>
+                                <ul t-if="state.patientResults.length" class="o_qp__results list-unstyled">
+                                    <li t-foreach="state.patientResults" t-as="p" t-key="p.id" t-on-click="() => this.pickPatient(p)">
+                                        <strong t-esc="p.name"/>
+                                        <span class="text-muted ms-2" t-esc="p.phone"/>
+                                        <span t-if="p.plans" class="badge text-bg-light ms-auto"><t t-esc="p.plans"/> plan</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </t>
+                    </div>
+
+                    <div class="btn-group btn-group-sm o_qp__currency" role="group" aria-label="Para birimi">
+                        <t t-foreach="state.setup.currencies" t-as="c" t-key="c.id">
+                            <button type="button" t-att-class="'btn ' + (state.currencyId === c.id ? 'btn-primary' : 'btn-outline-secondary')"
+                                    t-att-disabled="state.plan" t-on-click="() => this.setCurrency(c.id)" t-esc="c.name"/>
+                        </t>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-light" t-on-click="newTicket" title="Yeni teklif">
+                        <i class="fa fa-plus me-1"/>Yeni
+                    </button>
+                </header>
+
+                <div class="o_qp__body">
+                    <!-- Catalogue -->
+                    <section class="o_qp__catalog">
+                        <div class="o_qp__search">
+                            <i class="fa fa-search"/>
+                            <input t-ref="search" class="form-control" placeholder="Tedavi ara  ( / )" t-model="state.query"
+                                   t-on-keydown="onSearchKeydown"/>
+                        </div>
+                        <div class="o_qp__cats">
+                            <button type="button" t-att-class="'o_qp__cat' + (state.category === 'all' ? ' is-active' : '')"
+                                    t-on-click="() => this.state.category = 'all'">Tümü</button>
+                            <t t-foreach="state.catalog.categories" t-as="cat" t-key="cat.id">
+                                <button type="button" t-att-class="'o_qp__cat' + (state.category === cat.id ? ' is-active' : '')"
+                                        t-on-click="() => this.state.category = cat.id" t-esc="cat.name"/>
+                            </t>
+                        </div>
+                        <div class="o_qp__tiles">
+                            <t t-foreach="visibleProcedures" t-as="p" t-key="p.id">
+                                <button type="button" t-att-class="'o_qp__tile o_qp__tile--' + p.dentition + (procedureAllowed(p) ? '' : ' is-disabled')"
+                                        t-on-click="() => this.addProcedure(p)">
+                                    <span class="o_qp__tile-name" t-esc="p.name"/>
+                                    <span class="o_qp__tile-meta">
+                                        <span t-if="p.per_tooth" class="o_qp__tag" title="Diş bazında"><i class="fa fa-crosshairs"/></span>
+                                        <span t-if="p.dentition === 'primary'" class="o_qp__tag o_qp__tag--primary">Süt</span>
+                                    </span>
+                                    <span class="o_qp__tile-price">
+                                        <t t-if="p.price" t-esc="money(p.price)"/>
+                                        <t t-else="">Fiyat yok</t>
+                                        <small t-if="p.converted" class="o_qp__fx" title="Bu para biriminde fiyat girilmemiş; TRY fiyatı güncel kurla çevrildi.">kurla</small>
+                                    </span>
+                                </button>
+                            </t>
+                            <p t-if="!visibleProcedures.length" class="text-muted p-3">Tedavi bulunamadı.</p>
+                        </div>
+                    </section>
+
+                    <!-- Mini chart -->
+                    <section class="o_qp__chart">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Dişlenme">
+                                <button type="button" t-att-class="'btn ' + (state.dentition === 'permanent' ? 'btn-primary' : 'btn-outline-secondary')"
+                                        t-on-click="() => this.setDentition('permanent')">Daimi</button>
+                                <button type="button" t-att-class="'btn ' + (state.dentition === 'primary' ? 'btn-primary' : 'btn-outline-secondary')"
+                                        t-on-click="() => this.setDentition('primary')">Süt dişleri</button>
+                            </div>
+                            <span class="ms-auto small text-muted">
+                                <t t-if="state.selected.length"><strong t-esc="state.selected.length"/> diş seçili ·
+                                    <a href="#" t-on-click.prevent="clearSelection">temizle</a></t>
+                                <t t-else="">Diş seçip tedaviye dokunun</t>
+                            </span>
+                        </div>
+                        <div class="o_qp__arches">
+                            <div class="o_qp__arch o_qp__arch--upper">
+                                <t t-foreach="arches.upper[0]" t-as="number" t-key="number"><t t-call="dentistclinic.QuickPriceTooth"/></t>
+                                <span class="o_qp__mid"/>
+                                <t t-foreach="arches.upper[1]" t-as="number" t-key="number"><t t-call="dentistclinic.QuickPriceTooth"/></t>
+                            </div>
+                            <div class="o_qp__arch o_qp__arch--lower">
+                                <t t-foreach="arches.lower[0]" t-as="number" t-key="number"><t t-call="dentistclinic.QuickPriceTooth"/></t>
+                                <span class="o_qp__mid"/>
+                                <t t-foreach="arches.lower[1]" t-as="number" t-key="number"><t t-call="dentistclinic.QuickPriceTooth"/></t>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Ticket -->
+                    <aside class="o_qp__ticket">
+                        <t t-if="state.step === 'quote'">
+                            <div class="o_qp__ticket-head">
+                                <strong>Teklif</strong>
+                                <span t-if="state.plan" class="badge text-bg-success ms-2"><i class="fa fa-check me-1"/><t t-esc="state.plan.name"/></span>
+                                <span class="ms-auto small text-muted" t-if="state.lines.length"><i class="fa fa-clock-o me-1"/><t t-esc="durationLabel"/></span>
+                            </div>
+                            <ul class="o_qp__lines list-unstyled">
+                                <li t-foreach="state.lines" t-as="line" t-key="line.key" class="o_qp__line">
+                                    <span t-if="line.tooth" t-att-class="'o_qp__tooth-badge' + (isPrimaryTooth(line.tooth) ? ' is-primary' : '')" t-esc="line.tooth"
+                                          t-att-title="isPrimaryTooth(line.tooth) ? 'Süt dişi' : 'Daimi diş'"/>
+                                    <span class="o_qp__line-name">
+                                        <t t-esc="line.name"/>
+                                        <small t-if="line.converted" class="o_qp__fx">kurla</small>
+                                    </span>
+                                    <span class="o_qp__line-disc" title="İndirim %">
+                                        <input type="number" min="0" max="100" step="1" class="form-control form-control-sm"
+                                               t-att-value="line.discount || ''" placeholder="%" t-att-disabled="state.plan"
+                                               t-att-class="line.discount > maxDiscount ? 'is-invalid' : ''"
+                                               t-on-change="(ev) => this.setLineDiscount(line, ev.target.value)"/>
+                                    </span>
+                                    <span class="o_qp__line-price">
+                                        <s t-if="line.discount" class="text-muted small d-block" t-esc="money(line.price)"/>
+                                        <t t-esc="money(lineTotal(line))"/>
+                                    </span>
+                                    <button t-if="!state.plan" type="button" class="btn btn-link btn-sm text-danger p-0 ms-1" title="Kaldır"
+                                            t-on-click="() => this.removeLine(line.key)"><i class="fa fa-times"/></button>
+                                </li>
+                                <li t-if="!state.lines.length" class="o_qp__empty">
+                                    <i class="fa fa-hand-pointer-o fa-2x mb-2"/>
+                                    <div>Teklif boş. Diş seçip soldaki tedavilere dokunun.</div>
+                                </li>
+                            </ul>
+                            <div class="o_qp__totals">
+                                <div><span>Ara toplam</span><span t-esc="money(subtotal)"/></div>
+                                <div class="o_qp__gdisc">
+                                    <span>Genel indirim</span>
+                                    <span class="d-flex align-items-center gap-2">
+                                        <input type="number" min="0" max="100" step="1" class="form-control form-control-sm" placeholder="%"
+                                               t-att-value="state.globalDiscount || ''" t-att-disabled="state.plan"
+                                               t-att-class="state.globalDiscount > maxDiscount ? 'is-invalid' : ''"
+                                               t-on-change="(ev) => this.setGlobalDiscount(ev.target.value)"/>
+                                        <span t-if="globalDiscountAmount">- <t t-esc="money(globalDiscountAmount)"/></span>
+                                    </span>
+                                </div>
+                                <div class="o_qp__total"><span>Toplam</span><span t-esc="money(total)"/></div>
+                                <div t-if="discountError" class="o_qp__error"><i class="fa fa-exclamation-triangle me-1"/><t t-esc="discountError"/></div>
+                                <div t-if="hasConverted" class="o_qp__note">"kurla" işaretli kalemler TRY fiyatının güncel kurla çevrilmesidir.</div>
+                                <div t-if="!state.patient and state.lines.length" class="o_qp__note">Plana aktarmak için hasta seçin.</div>
+                            </div>
+                            <div class="o_qp__actions">
+                                <button type="button" class="btn btn-light" t-att-disabled="!state.lines.length" t-on-click="() => this.present()">
+                                    <i class="fa fa-desktop me-1"/>Ekranda göster
+                                </button>
+                                <button type="button" class="btn btn-light" t-att-disabled="!canSubmit" t-on-click="sendWhatsapp">
+                                    <i class="fa fa-whatsapp me-1"/>WhatsApp
+                                </button>
+                                <button type="button" class="btn btn-light" t-att-disabled="!canSubmit" t-on-click="openPdf">
+                                    <i class="fa fa-file-pdf-o me-1"/>PDF
+                                </button>
+                                <button type="button" class="btn btn-secondary" t-att-disabled="!canSubmit" t-on-click="openPlan">
+                                    <i class="fa fa-medkit me-1"/><t t-esc="state.plan ? 'Planı aç' : 'Plana aktar'"/>
+                                </button>
+                                <button type="button" class="btn btn-primary o_qp__cta" t-att-disabled="!canSubmit" t-on-click="startBooking">
+                                    <i class="fa fa-calendar-plus-o me-1"/>Randevu al
+                                </button>
+                            </div>
+                        </t>
+
+                        <t t-elif="state.step === 'book'">
+                            <div class="o_qp__ticket-head">
+                                <button type="button" class="btn btn-link btn-sm p-0 me-2" t-on-click="() => this.state.step = 'quote'"><i class="fa fa-arrow-left"/></button>
+                                <strong>Randevu al</strong>
+                                <span class="ms-auto small text-muted"><i class="fa fa-clock-o me-1"/><t t-esc="durationLabel"/></span>
+                            </div>
+                            <div class="o_qp__book">
+                                <label class="form-label small mb-1">Hekim</label>
+                                <select class="form-select mb-3" t-on-change="setDoctor">
+                                    <t t-foreach="state.setup.doctors" t-as="d" t-key="d.id">
+                                        <option t-att-value="d.id" t-att-selected="d.id === state.doctorId" t-esc="d.name"/>
+                                    </t>
+                                </select>
+                                <label class="form-label small mb-1">Gün</label>
+                                <div class="d-flex gap-2 align-items-center mb-1">
+                                    <button type="button" class="btn btn-light btn-sm" t-on-click="() => this.shiftDay(-1)"><i class="fa fa-chevron-left"/></button>
+                                    <input type="date" class="form-control" t-att-value="state.day" t-on-change="setDay"/>
+                                    <button type="button" class="btn btn-light btn-sm" t-on-click="() => this.shiftDay(1)"><i class="fa fa-chevron-right"/></button>
+                                </div>
+                                <div class="small text-muted mb-3 text-capitalize" t-esc="dayLabel"/>
+                                <div class="o_qp__slots">
+                                    <t t-if="state.slotsLoading"><i class="fa fa-spinner fa-spin"/></t>
+                                    <t t-elif="state.slots.length">
+                                        <button t-foreach="state.slots" t-as="slot" t-key="slot.start" type="button"
+                                                class="btn btn-outline-primary o_qp__slot" t-att-disabled="state.busy"
+                                                t-on-click="() => this.book(slot)" t-esc="slot.label"/>
+                                    </t>
+                                    <p t-else="" class="text-muted small mb-0">Bu gün için uygun saat yok. Başka bir gün ya da hekim seçin.</p>
+                                </div>
+                            </div>
+                        </t>
+
+                        <t t-else="">
+                            <div class="o_qp__done">
+                                <i class="fa fa-check-circle o_qp__done-icon"/>
+                                <h4>Randevu oluşturuldu</h4>
+                                <p class="mb-1"><strong t-esc="state.patient.name"/></p>
+                                <p class="mb-1"><t t-esc="state.booking.start_label"/> · <t t-esc="state.booking.doctor"/></p>
+                                <p class="text-muted small">Plan <t t-esc="state.plan.name"/> · <t t-esc="money(total)"/></p>
+                                <div class="d-grid gap-2 mt-3">
+                                    <button type="button" class="btn btn-light" t-on-click="sendWhatsapp"><i class="fa fa-whatsapp me-1"/>Teklifi WhatsApp'tan gönder</button>
+                                    <button type="button" class="btn btn-light" t-on-click="openAppointment"><i class="fa fa-calendar me-1"/>Randevuyu aç</button>
+                                    <button type="button" class="btn btn-light" t-on-click="openPlan"><i class="fa fa-medkit me-1"/>Tedavi planını aç</button>
+                                    <button type="button" class="btn btn-primary" t-on-click="newTicket"><i class="fa fa-plus me-1"/>Yeni teklif</button>
+                                </div>
+                            </div>
+                        </t>
+                    </aside>
+                </div>
+
+                <!-- Patient-facing presentation -->
+                <div t-if="state.presenting" class="o_qp__present" t-on-click="() => this.present(false)">
+                    <div class="o_qp__present-card" t-on-click.stop="() => {}">
+                        <button type="button" class="btn btn-link o_qp__present-close" t-on-click="() => this.present(false)"><i class="fa fa-times fa-lg"/></button>
+                        <div class="o_qp__present-title">Tedavi teklifiniz</div>
+                        <div t-if="state.patient" class="o_qp__present-patient" t-esc="state.patient.name"/>
+                        <ul class="list-unstyled">
+                            <li t-foreach="state.lines" t-as="line" t-key="line.key">
+                                <span><t t-esc="line.name"/><t t-if="line.tooth"> <small class="text-muted">· diş <t t-esc="line.tooth"/></small></t></span>
+                                <span t-esc="money(lineTotal(line))"/>
+                            </li>
+                        </ul>
+                        <div t-if="globalDiscountAmount" class="o_qp__present-row"><span>İndirim</span><span>- <t t-esc="money(globalDiscountAmount)"/></span></div>
+                        <div class="o_qp__present-total"><span>Toplam</span><span t-esc="money(total)"/></div>
+                        <p class="o_qp__present-note">Kesin plan ve fiyat klinik muayeneden sonra hekiminiz tarafından belirlenir.</p>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

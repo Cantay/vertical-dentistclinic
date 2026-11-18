@@ -9,6 +9,16 @@
             <xpath expr="//form" position="inside">
                 <app string="Diş Kliniği" data-string="Diş Kliniği" name="dentistclinic"
                      groups="dentistclinic.group_dentistclinic_manager">
+                    <block title="Hızlı Fiyat ve Teklif" name="dentistclinic_quote_container">
+                        <setting id="dentistclinic_max_discount" string="İndirim Sınırı"
+                                 help="Kullanıcıların teklif ve tedavi planında yapabileceği en yüksek indirim. Daha yüksek indirim için yönetici yetkisi gerekir.">
+                            <field name="dentistclinic_max_discount" class="oe_inline"/> %
+                        </setting>
+                        <setting id="dentistclinic_quote_validity" string="Teklif Geçerliliği"
+                                 help="Hızlı fiyattan oluşturulan tekliflerin geçerlilik süresi.">
+                            <field name="dentistclinic_quote_validity_days" class="oe_inline"/> gün
+                        </setting>
+                    </block>
                     <block title="Özellikler" name="dentistclinic_features_container">
                         <setting id="dentistclinic_online_appointment"
                                  string="Online Randevu (Website)"

@@ -14,10 +14,10 @@
                 <t t-call="dentistclinic.OdontogramOcclusal"/>
             </t>
             <svg class="dental-tooth-svg" t-att-viewBox="info.viewBox" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-                <g class="dental-tooth-body" t-att-transform="info.upper ? '' : 'matrix(1 0 0 -1 0 120)'">
-                    <path class="dental-tooth-root" t-att-d="info.shape.root"/>
-                    <path class="dental-tooth-crown" t-att-d="info.shape.crown"/>
-                    <path t-if="info.shape.incisal" class="dental-tooth-incisal" t-att-d="info.shape.incisal"/>
+                <g class="dental-tooth-body" filter="url(#dental-tooth-shadow)" t-att-transform="info.upper ? '' : 'matrix(1 0 0 -1 0 120)'">
+                    <path class="dental-tooth-root" fill="url(#dental-root-grad)" t-att-d="info.shape.root"/>
+                    <path class="dental-tooth-crown" t-att-fill="info.primary ? 'url(#dental-enamel-primary-grad)' : 'url(#dental-enamel-grad)'" t-att-d="info.shape.crown"/>
+                    <path t-if="info.shape.incisal" class="dental-tooth-incisal" fill="url(#dental-incisal-grad)" t-att-d="info.shape.incisal"/>
                     <path class="dental-tooth-tint" t-att-d="info.shape.crown"/>
                     <path class="dental-tooth-ridges" t-att-d="info.shape.ridges"/>
                     <path class="dental-tooth-cej" t-att-d="'M' + (info.shape.vb[0] + 3) + ' 70 Q' + (info.shape.vb[0] + info.shape.vb[1] / 2) + ' 75 ' + (info.shape.vb[0] + info.shape.vb[1] - 3) + ' 70'"/>
@@ -32,8 +32,8 @@
 
     <t t-name="dentistclinic.OdontogramOcclusal">
         <svg class="dental-tooth-occ" viewBox="0 0 60 60" aria-hidden="true">
-            <g class="dental-tooth-body">
-                <path class="dental-occ-surface" t-att-d="info.shape.occ"/>
+            <g class="dental-tooth-body" filter="url(#dental-tooth-shadow)">
+                <path class="dental-occ-surface" fill="url(#dental-occ-grad)" t-att-d="info.shape.occ"/>
                 <path class="dental-tooth-tint" t-att-d="info.shape.occ"/>
                 <path class="dental-occ-fissure" t-att-d="info.shape.occl"/>
             </g>

@@ -37,6 +37,8 @@ class DentalAppointment(models.Model):
     reminder_sent = fields.Boolean(string='Hatırlatma Gönderildi', default=False)
     treatment_plan_id = fields.Many2one(
         'dental.treatment.plan', string='Tedavi Planı')
+    treatment_line_ids = fields.One2many(
+        'dental.treatment.line', 'appointment_id', string='Planlanan Tedaviler')
     notes = fields.Text(string='Notlar')
     source = fields.Selection([
         ('backend', 'Klinik'),

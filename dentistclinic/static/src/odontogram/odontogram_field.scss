@@ -98,15 +98,14 @@
         overflow: visible;
     }
     .dental-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-    .dental-tooth-body { filter: url(#dental-tooth-shadow); }
 
-    .dental-tooth-root { fill: url(#dental-root-grad); stroke: #b9a57c; stroke-width: 0.8; }
-    .dental-tooth-crown { fill: url(#dental-enamel-grad); stroke: #a89c84; stroke-width: 0.8; }
-    .dental-tooth-primary .dental-tooth-crown { fill: url(#dental-enamel-primary-grad); }
-    .dental-tooth-incisal { fill: url(#dental-incisal-grad); }
+    // Gradients / shadow are set as SVG attributes: url(#…) inside a stylesheet
+    // resolves against the stylesheet, not the page, and paints nothing.
+    .dental-tooth-root { stroke: #b9a57c; stroke-width: 0.8; }
+    .dental-tooth-crown { stroke: #a89c84; stroke-width: 0.8; }
     .dental-tooth-ridges { fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; opacity: 0.45; }
     .dental-tooth-cej { fill: none; stroke: #9c8760; stroke-width: 0.7; opacity: 0.5; }
-    .dental-occ-surface { fill: url(#dental-occ-grad); stroke: #a89c84; stroke-width: 1; }
+    .dental-occ-surface { stroke: #a89c84; stroke-width: 1; }
     .dental-occ-fissure { fill: none; stroke: #9c8a68; stroke-width: 1.6; stroke-linecap: round; opacity: 0.75; }
 
     // Treatment state: a translucent tint over the enamel (texture stays visible).
