@@ -141,7 +141,8 @@ class DentalEvent(models.Model):
             'date_label': self._website_date_label(),
             'description': self.description or '',
             'doctors': [
-                ('%s %s' % (doctor.dental_title, doctor.name)) if doctor.dental_title else doctor.name
+                # The website name already carries the title (e.g. "Uzm. Dt. …").
+                doctor.dental_public_name
                 for doctor in self.doctor_ids
             ],
             'seats_available': self.seats_available if self.seats_max else None,

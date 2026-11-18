@@ -68,6 +68,11 @@
                     <div class="oe_title">
                         <label for="name" string="Ad Soyad"/>
                         <h1><field name="name" placeholder="Ad Soyad" required="1"/></h1>
+                        <div class="o_row align-items-center text-muted mb-1">
+                            <i class="fa fa-globe me-1" title="Web sitesinde görünen ad"/>
+                            <field name="dental_website_name" class="o_text_overflow"
+                                   placeholder="Sitede görünen ad (dile göre çevrilebilir, boşsa yukarıdaki ad)"/>
+                        </div>
                         <field name="dental_title" placeholder="Ünvan (örn. Uzm. Dt.)"/>
                     </div>
                     <group>

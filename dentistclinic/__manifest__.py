@@ -2,7 +2,7 @@
 
 {
     'name': 'Diş Kliniği Yönetimi',
-    'version': '18.0.4.8.0',
+    'version': '18.0.4.11.0',
     'category': 'Industries',
     'summary': 'Diş kliniği hasta, randevu, tedavi planı, laboratuvar, onam, sağlık turizmi ve WhatsApp yönetimi',
     'description': """Diş klinikleri için uçtan uca yönetim modülü.
