@@ -54,6 +54,12 @@ class HrEmployee(models.Model):
     dental_website_published = fields.Boolean(
         string='Web Sitesinde Göster', copy=False,
         help='İşaretliyse kişi web sitesindeki Ekibimiz bölümünde ve profil sayfasında yayınlanır.')
+    dental_website_name = fields.Char(
+        string='Sitede Görünen Ad', translate=True,
+        help='Web sitesinde gösterilecek ad; her dil için ayrı yazılabilir (ör. Latin / Kiril yazımı). '
+             'Boş bırakılırsa çalışanın adı kullanılır.')
+    dental_public_name = fields.Char(
+        string='Sitedeki Ad', compute='_compute_dental_public_name')
     dental_website_sequence = fields.Integer(string='Sıralama', default=10)
     dental_website_separator_after = fields.Boolean(
         string='Bu kişiden sonra ayırıcı göster',
@@ -116,6 +122,12 @@ class HrEmployee(models.Model):
         if not (self.dental_website_separator_after and self.dental_website_separator_heading):
             return '', ''
         return self.dental_website_separator_title or '', self.dental_website_separator_text or ''
+
+    @api.depends('name', 'dental_website_name')
+    @api.depends_context('lang')
+    def _compute_dental_public_name(self):
+        for employee in self:
+            employee.dental_public_name = employee.dental_website_name or employee.name
 
     def _dental_website_card(self):
         """Website'e açılan (yayınlanmış) ekip üyesinin güvenli alan seti."""

@@ -78,6 +78,19 @@ publicWidget.registry.DentistClinicTeam = publicWidget.Widget.extend({
         link.href = member.profile_url;
         link.className = "dental-team-card d-block h-100 text-reset text-decoration-none";
 
+        const header = document.createElement("div");
+        header.className = "dental-team-card__header";
+        const name = document.createElement("h3");
+        name.className = "dental-team-card__name";
+        name.textContent = member.name;
+        header.appendChild(name);
+        if (member.subtitle) {
+            const subtitle = document.createElement("p");
+            subtitle.className = "dental-team-card__title";
+            subtitle.textContent = member.subtitle;
+            header.appendChild(subtitle);
+        }
+
         const photo = document.createElement("div");
         photo.className = "dental-team-card__photo";
         const img = document.createElement("img");
@@ -88,19 +101,9 @@ publicWidget.registry.DentistClinicTeam = publicWidget.Widget.extend({
 
         const body = document.createElement("div");
         body.className = "dental-team-card__body";
-        const name = document.createElement("h3");
-        name.className = "h5 mb-1";
-        name.textContent = member.title ? `${member.title} ${member.name}` : member.name;
-        body.appendChild(name);
-        if (member.subtitle) {
-            const subtitle = document.createElement("div");
-            subtitle.className = "text-muted small mb-2";
-            subtitle.textContent = member.subtitle;
-            body.appendChild(subtitle);
-        }
         if (member.short_bio) {
             const bio = document.createElement("p");
-            bio.className = "mb-0 small";
+            bio.className = "dental-team-card__description";
             bio.textContent = member.short_bio;
             body.appendChild(bio);
         }
@@ -124,7 +127,7 @@ publicWidget.registry.DentistClinicTeam = publicWidget.Widget.extend({
             body.appendChild(langs);
         }
 
-        link.append(photo, body);
+        link.append(header, photo, body);
         col.appendChild(link);
         return col;
     },

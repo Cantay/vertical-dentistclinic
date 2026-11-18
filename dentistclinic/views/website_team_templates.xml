@@ -12,17 +12,15 @@
     <template id="team_member_card" name="Ekip Üyesi Kartı">
         <div class="col-sm-6 col-lg-3 mb-4">
             <a t-att-href="member.dental_website_url" class="dental-team-card d-block h-100 text-reset text-decoration-none">
+                <div class="dental-team-card__header">
+                    <h3 class="dental-team-card__name" t-out="member.name"/>
+                    <p class="dental-team-card__title" t-out="member.dental_website_subtitle"/>
+                </div>
                 <div class="dental-team-card__photo">
                     <img t-att-src="'/our-team/photo/%s?v=%s' % (member.id, member.write_date.strftime('%Y%m%d%H%M%S'))" t-att-alt="member.name" loading="lazy"/>
                 </div>
                 <div class="dental-team-card__body">
-                    <h3 class="h5 mb-1">
-                        <t t-if="member.dental_title"><t t-out="member.dental_title"/> </t><t t-out="member.name"/>
-                    </h3>
-                    <div class="text-muted small mb-2">
-                        <t t-out="member.dental_website_subtitle"/>
-                    </div>
-                    <p t-if="member.dental_short_bio" class="mb-0 small" t-out="member.dental_short_bio"/>
+                    <p t-if="member.dental_short_bio" class="dental-team-card__description" t-out="member.dental_short_bio"/>
                     <t t-call="dentistclinic.team_member_languages"/>
                 </div>
             </a>
@@ -96,9 +94,7 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <h1 class="mb-1">
-                                    <t t-if="member.dental_title"><t t-out="member.dental_title"/> </t><t t-out="member.name"/>
-                                </h1>
+                                <h1 class="mb-1" t-out="member.name"/>
                                 <p class="lead text-muted">
                                     <t t-out="member.dental_website_subtitle"/>
                                 </p>
